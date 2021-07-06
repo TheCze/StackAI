@@ -7,23 +7,23 @@
 class Actor {
 public: 
 	Actor();
-	Actor(Pos2D pos) : symbol_(ASCIISymbol(ASCII::face,sf::Color::Red)), pos_(pos), m_target(pos){}
-	Actor(ASCIISymbol symbol, Pos2D pos): symbol_(symbol), pos_(pos), m_target(pos) {}
+	Actor(Pos2D pos) : symbol_(ASCIISymbol(ASCII::face,sf::Color::Red)), pos_(pos), target_(pos){}
+	Actor(ASCIISymbol symbol, Pos2D pos): symbol_(symbol), pos_(pos), target_(pos) {}
 	ASCIISymbol symbol_ = ASCIISymbol();
-	Pos2D pos() { return pos_; }
+	Pos2D GetPos() { return pos_; }
 	void Draw(sf::RenderWindow& window, Spritesheet& font);
-	void update(World& world, float delta);
-	bool at_target();
-	void set_target(Pos2D pos) { m_target = pos; m_path.reset(); }
-	std::shared_ptr<Path> m_path;
+	void Update(World& world, float delta);
+	bool AtTarget();
+	void SetTarget(Pos2D pos) { target_ = pos; path_.reset(); }
+	std::shared_ptr<Path> path_;
 private:
-	float m_movespeed = 15;
-	float m_movetimer = 1 / m_movespeed;
-	void move(World& world);
-	bool should_move(float delta);
-	bool has_valid_path(World& world);
+	float movespeed_ = 15;
+	float movetimer_ = 1 / movespeed_;
+	void Move(World& world);
+	bool ShouldMove(float delta);
+	bool HasValidPath(World& world);
 	Pos2D pos_ = Pos2D();
-	Pos2D m_target = Pos2D();
-	void reset_move_timer();
-	void get_random_target();
+	Pos2D target_ = Pos2D();
+	void ResetMoveTimer();
+	void GetRandomTarget();
 };

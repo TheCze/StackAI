@@ -15,39 +15,39 @@ void Actor::Draw(sf::RenderWindow& window, Spritesheet& font)
 	symbol_.Draw(window, font, (float)pos_.x, (float)pos_.y);
 }
 
-void Actor::update(World& world, float delta)
+void Actor::Update(World& world, float delta)
 {
-	if (should_move(delta)) {
-		if (has_valid_path(world)) {
-			move(world);
-			if (at_target())
-				get_random_target();
+	if (ShouldMove(delta)) {
+		if (HasValidPath(world)) {
+			Move(world);
+			if (AtTarget())
+				GetRandomTarget();
 		}
 		else {
-			m_path=world.GetPath(pos_, m_target);
-			if (!m_path)
-				get_random_target();
+			path_=world.GetPath(pos_, target_);
+			if (!path_)
+				GetRandomTarget();
 		}
 	}
 }
 
-bool Actor::at_target() {
-	return pos_ == m_target;
+bool Actor::AtTarget() {
+	return pos_ == target_;
 }
 
-bool Actor::should_move(float delta) {
-	m_movetimer -= delta;
-	if (m_movetimer < 0) {
+bool Actor::ShouldMove(float delta) {
+	movetimer_ -= delta;
+	if (movetimer_ < 0) {
 
-		reset_move_timer();
+		ResetMoveTimer();
 		return true;
 	}
 	return false;
 }
 
-bool Actor::has_valid_path(World& world)
+bool Actor::HasValidPath(World& world)
 {
-	if (m_path && m_path->length()>0) {
+	if (path_ && path_->length()>0) {
 		return true;
 	}
 	else {
@@ -55,25 +55,25 @@ bool Actor::has_valid_path(World& world)
 	}
 }
 
-void Actor::move(World& world)
+void Actor::Move(World& world)
 {
-	auto node = m_path->get_next();
+	auto node = path_->get_next();
 	if (world.GetTile(node->pos.x, node->pos.y).walkable_) {
 		pos_ = node->pos;
 		world.GetTile(pos_).WalkOn();
 	}
 	else {
-		m_path.reset();		
+		path_.reset();		
 	}
 }
 
-void Actor::reset_move_timer() {
-	m_movetimer = 1 / m_movespeed;
+void Actor::ResetMoveTimer() {
+	movetimer_ = 1 / movespeed_;
 }
 
-void Actor::get_random_target()
+void Actor::GetRandomTarget()
 {
-	m_target.x = random::getInt(settings::WORLD_WIDTH-1);
-	m_target.y = random::getInt(settings::WORLD_HEIGHT-1);	
-	m_path.reset();
+	target_.x = random::getInt(settings::WORLD_WIDTH-1);
+	target_.y = random::getInt(settings::WORLD_HEIGHT-1);	
+	path_.reset();
 }

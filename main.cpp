@@ -65,7 +65,7 @@ void update(World& world) {
     }
     world.Update(dt.asSeconds());
     for (auto& actor : actors) {
-        actor.update(world, dt.asSeconds());
+        actor.Update(world, dt.asSeconds());
     }
 }
 
@@ -118,7 +118,7 @@ void check_input(sf::RenderWindow& window, World& world)
         int tile_x = mousePos.x / settings::TILE_WIDTH;
         int tile_y = mousePos.y / settings::TILE_WIDTH;
         if (world.IsValid(tile_x, tile_y)) {
-            actors.front().set_target(Pos2D(tile_x, tile_y));
+            actors.front().SetTarget(Pos2D(tile_x, tile_y));
         }
     }
     else {
