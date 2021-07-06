@@ -65,10 +65,10 @@ std::shared_ptr<Path> World::GetPath(Pos2D start, Pos2D target) {
 
 std::vector<Tile> World::GetAdjacents(Pos2D pos) {
     std::vector<Tile> adjacents;
-    Pos2D up = pos.adjacent(0, -1);
-    Pos2D down = pos.adjacent(0, 1);
-    Pos2D left = pos.adjacent(-1, 0);
-    Pos2D right = pos.adjacent(1, 0);
+    Pos2D up = pos.Adjacent(0, -1);
+    Pos2D down = pos.Adjacent(0, 1);
+    Pos2D left = pos.Adjacent(-1, 0);
+    Pos2D right = pos.Adjacent(1, 0);
     if (IsValid(up) && GetTile(up).walkable_)
         adjacents.push_back(GetTile(up));
     if (IsValid(down) && GetTile(down).walkable_)
@@ -78,10 +78,10 @@ std::vector<Tile> World::GetAdjacents(Pos2D pos) {
     if (IsValid(right) && GetTile(right).walkable_)
         adjacents.push_back(GetTile(right));
 
-    Pos2D upleft = pos.adjacent(-1, -1);
-    Pos2D upright = pos.adjacent(1, -1);
-    Pos2D downleft = pos.adjacent(-1, 1);
-    Pos2D downright = pos.adjacent(1, 1);
+    Pos2D upleft = pos.Adjacent(-1, -1);
+    Pos2D upright = pos.Adjacent(1, -1);
+    Pos2D downleft = pos.Adjacent(-1, 1);
+    Pos2D downright = pos.Adjacent(1, 1);
     if (IsValid(up) && GetTile(up).walkable_)
         if (IsValid(left) && GetTile(left).walkable_)
             if (IsValid(upleft) && GetTile(upleft).walkable_)

@@ -6,5 +6,5 @@ struct Pos2D {
 	int y = 0;
 	inline bool operator==(const Pos2D& b) { return x == b.x && y == b.y; }
 	inline bool operator!=(const Pos2D& b) { return x != b.x || y != b.y; }
-	Pos2D adjacent(int px, int py) { return Pos2D(x + px, y + py); }
+	Pos2D Adjacent(int px, int py) { return Pos2D(x + px, y + py); }
 };
