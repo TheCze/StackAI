@@ -8,6 +8,6 @@ struct Pathnode {
 	Pos2D pos;
 	node_ptr next;
 	float weight = 1;
-	bool isLast() { return !next.get(); }
+	bool IsLast() { return !next.get(); }
 	int length(int i);
 };
