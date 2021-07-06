@@ -1,12 +1,13 @@
 #pragma once
 #include "AStarNode.h"
 #include <set>
-class ClosedList {
+struct ClosedList {
 public:
-	std::vector<AStarNode> list;
 	bool contains(AStarNode node);
 	void add(AStarNode node);
 	int size() { return list.size(); }
 	bool empty() { return list.empty(); }
-	void print();
+	void DebugPrint();
+private:
+	std::vector<AStarNode> list;
 };

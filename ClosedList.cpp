@@ -15,7 +15,7 @@ void ClosedList::add(AStarNode node)
 	list.push_back(node);
 }
 
-void ClosedList::print()
+void ClosedList::DebugPrint()
 {
 	std::cout << "[[Closed List]]" << std::endl;
 	for (AStarNode& node : list) {
