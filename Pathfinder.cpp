@@ -94,7 +94,7 @@ std::shared_ptr<Path> Pathfinder::GetTrivialPath(World& world, Pos2D start, Pos2
 {
 	std::shared_ptr<Path> path(new Path(start));
 	while (start != target) {
-		start = FindNext(start, target);
+		start.MoveTowards(target);
 		path->AddNode(start);
 	}
 	return path;
@@ -161,15 +161,3 @@ void Pathfinder::DisplayList(World& world, std::vector<AStarNode>& list, int sym
 	}
 }
 
-Pos2D Pathfinder::FindNext(Pos2D start, Pos2D target)
-{
-	if (start.x > target.x)
-		start.x--;
-	else if (start.x < target.x)
-		start.x++;
-	else if (start.y > target.y)
-		start.y--;
-	else if (start.y < target.y)
-		start.y++;
-	return start;
-}

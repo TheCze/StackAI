@@ -14,7 +14,6 @@ public:
 	Spritesheet* font_;
 
 private:
-	Pos2D FindNext(Pos2D start, Pos2D target);
 	std::shared_ptr<Path> GetTrivialPath(World& world, Pos2D start, Pos2D target);
 	std::shared_ptr<Path> FindAstar(World& world, Pos2D start, Pos2D target);
 	float Heuristic(Pos2D start, Pos2D target);
@@ -25,5 +24,4 @@ private:
 	float DiagonalMod(Pos2D a, Pos2D b);
 	void DebugRender(sf::RenderWindow* window, World& world, Spritesheet* font, Pos2D start, Pos2D target);
 	void DisplayList(World& world, std::vector<AStarNode>& list, int symbol, sf::Color color, Pos2D target);
-
 };
