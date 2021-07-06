@@ -74,7 +74,7 @@ float Pathfinder::SemiEuclidDistance(Pos2D start, Pos2D target)
 
 float Pathfinder::DiagonalMod(Pos2D a, Pos2D b)
 {
-	if (ManhattenDistance(a, b) == 1)
+	if (ManhattanDistance(a, b) == 1)
 		return 1;
 	else
 		return sqr2;
