@@ -55,6 +55,12 @@ std::shared_ptr<Path> Pathfinder::ReversePathFromTarget(AStarNode target)
 	return path;
 }
 
+float Pathfinder::ManhattanDistance(Pos2D start, Pos2D target)
+{
+	float cost = (float)std::abs(start.x - target.x) + (float)std::abs(start.y - target.y);
+	return cost;
+}
+
 float Pathfinder::SemiEuclidDistance(Pos2D start, Pos2D target)
 {
 	float cost = 0;
