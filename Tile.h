@@ -4,22 +4,22 @@
 #include "Pos2D.h"
 class Tile {
 public:
-	ASCIISymbol m_symbol = ASCIISymbol();
+	ASCIISymbol symbol_ = ASCIISymbol();
 	Tile() {}
-	Tile(ASCIISymbol symbol) : m_symbol(symbol) {}
-	Tile(ASCIISymbol symbol, Pos2D pos) : m_symbol(symbol), m_pos(pos) {}
-	bool walkable = true;
-	Pos2D m_pos = Pos2D();
-	void walk_on();
-	void renaturalize();
-	void updateColors();
-	void SetDefaultTileCost(float cost) { tile_cost = cost; }
-	sf::Color defaultColor;
-	sf::Color usageColor;
-	float tileCostUsageMod = 0.5f;
+	Tile(ASCIISymbol symbol) : symbol_(symbol) {}
+	Tile(ASCIISymbol symbol, Pos2D pos) : symbol_(symbol), pos_(pos) {}
+	bool walkable_ = true;
+	Pos2D pos_ = Pos2D();
+	void WalkOn();
+	void Renaturalize();
+	void UpdateColors();
+	void SetDefaultTileCost(float cost) { tile_cost_ = cost; }
+	sf::Color defaultColor_;
+	sf::Color usageColor_;
+	float tilecost_usage_mod = 0.5f;
 	float GetTileCost();
 private:
-	float usage = 0.0f;
-	float tile_cost = 1;
+	float usage_ = 0.0f;
+	float tile_cost_ = 1;
 
 };

@@ -20,7 +20,7 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 
 std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D target)
 {	
-	if (!world.GetTile(target).walkable)
+	if (!world.GetTile(target).walkable_)
 		return nullptr;
 	//world.clearWorld();
 	sf::Clock clock;
@@ -34,7 +34,7 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 	while (!openlist.empty()) {
 		i++;
 		AStarNode current = openlist.popLowestCost();
-		if (current.tile.m_pos == target) {
+		if (current.tile.pos_ == target) {
 			auto path = ReversePathFromTarget(current);
 			int length = path->length();
 			float time = clock.getElapsedTime().asMilliseconds();
@@ -46,11 +46,11 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 			}
 			return path;
 		}
-		auto adjacents = world.GetAdjacents(current.tile.m_pos);
+		auto adjacents = world.GetAdjacents(current.tile.pos_);
 		for (Tile& t : adjacents) {
-			float pathcost = current.pathCost + t.GetTileCost() * DiagonalMod(current.tile.m_pos, t.m_pos);
+			float pathcost = current.pathCost + t.GetTileCost() * DiagonalMod(current.tile.pos_, t.pos_);
 			//pathcost *= diagonal_mod(current.tile.m_pos, t.m_pos);
-			float heur = Heuristic(t.m_pos, target);
+			float heur = Heuristic(t.pos_, target);
 			float estcost = pathcost + heur;
 			anode_ptr cur(new AStarNode(current));
 			AStarNode next = AStarNode(estcost, pathcost, cur, t);
@@ -80,9 +80,9 @@ float Pathfinder::Heuristic(Pos2D start, Pos2D target) {
 
 std::shared_ptr<Path> Pathfinder::ReversePathFromTarget(AStarNode target)
 {
-	std::shared_ptr<Path> path(new Path(target.tile.m_pos));
+	std::shared_ptr<Path> path(new Path(target.tile.pos_));
 	while (target.previous) {
-		Pos2D pos = target.previous->tile.m_pos;
+		Pos2D pos = target.previous->tile.pos_;
 		path->addNode(pos);
 		target = *target.previous;
 	}
@@ -141,7 +141,7 @@ void Pathfinder::DebugRender(sf::RenderWindow* window, World& world, Spritesheet
 	p.draw(*window, *font, (float)target.x, (float)target.y);
 	for (int x = 0; x < settings::WORLD_WIDTH; x++) {
 		for (int y = 0; y < settings::WORLD_HEIGHT; y++) {
-			world.GetTile(x, y).m_symbol.draw(*window, *font, x, y);
+			world.GetTile(x, y).symbol_.draw(*window, *font, x, y);
 		}
 	}
 	ASCIISymbol at = ASCIISymbol(ASCII::face, Color(255, 00, 0, 255));
@@ -152,12 +152,12 @@ void Pathfinder::DebugRender(sf::RenderWindow* window, World& world, Spritesheet
 void Pathfinder::DisplayList(World& world, std::vector<AStarNode>& list, int symbol, sf::Color color, Pos2D target)
 {
 	for (AStarNode& node : list) {
-		Pos2D pos = node.tile.m_pos;
+		Pos2D pos = node.tile.pos_;
 	//	float h = heuristic(node.tile.m_pos, target);
 	//	color.g = h;
 	//	color.b = h;
 		Tile t = Tile(ASCIISymbol(symbol, color),pos);
-		world.GetTile(pos.x, pos.y).m_symbol.setColor(color);
+		world.GetTile(pos.x, pos.y).symbol_.setColor(color);
 	}
 }
 

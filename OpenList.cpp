@@ -4,7 +4,7 @@
 void OpenList::addOrUpdate(AStarNode new_node)
 {
 	for (AStarNode& node : list) {
-		if (node.tile.m_pos == new_node.tile.m_pos) {
+		if (node.tile.pos_ == new_node.tile.pos_) {
 			if (node.pathCost > new_node.pathCost) {
 				node.pathCost = new_node.pathCost;
 				return;
@@ -41,11 +41,11 @@ void OpenList::print()
 	std::cout << "==Open List==" << std::endl;
 	for (AStarNode& node : list) {
 		if (node.previous)
-		std::cout << node.tile.m_pos.x << " / " << node.tile.m_pos.y << " (From: "
-			<< node.previous->tile.m_pos.x << " / " << node.previous->tile.m_pos.y << ")" << std::endl
+		std::cout << node.tile.pos_.x << " / " << node.tile.pos_.y << " (From: "
+			<< node.previous->tile.pos_.x << " / " << node.previous->tile.pos_.y << ")" << std::endl
 			<<"Tile: " << node.pathCost <<" Heuristic: "<< node.estCost- node.pathCost << " Total: " << node.estCost << std::endl;
 		else {
-			std::cout << node.tile.m_pos.x << " / " << node.tile.m_pos.y << " (START)" << std::endl
+			std::cout << node.tile.pos_.x << " / " << node.tile.pos_.y << " (START)" << std::endl
 				<< "Tile: " << node.pathCost << " Heuristic: " << node.estCost - node.pathCost << " Total: " << node.estCost << std::endl;
 		}
 	}

@@ -8,11 +8,11 @@
 
 Actor::Actor()
 {
-	m_symbol = ASCIISymbol(ASCII::at, sf::Color::Red);
+	symbol_ = ASCIISymbol(ASCII::at, sf::Color::Red);
 }
 void Actor::draw(sf::RenderWindow& window, Spritesheet& font)
 {
-	m_symbol.draw(window, font, (float)m_pos.x, (float)m_pos.y);
+	symbol_.draw(window, font, (float)pos_.x, (float)pos_.y);
 }
 
 void Actor::update(World& world, float delta)
@@ -24,7 +24,7 @@ void Actor::update(World& world, float delta)
 				get_random_target();
 		}
 		else {
-			m_path=world.GetPath(m_pos, m_target);
+			m_path=world.GetPath(pos_, m_target);
 			if (!m_path)
 				get_random_target();
 		}
@@ -32,7 +32,7 @@ void Actor::update(World& world, float delta)
 }
 
 bool Actor::at_target() {
-	return m_pos == m_target;
+	return pos_ == m_target;
 }
 
 bool Actor::should_move(float delta) {
@@ -58,9 +58,9 @@ bool Actor::has_valid_path(World& world)
 void Actor::move(World& world)
 {
 	auto node = m_path->get_next();
-	if (world.GetTile(node->pos.x, node->pos.y).walkable) {
-		m_pos = node->pos;
-		world.GetTile(m_pos).walk_on();
+	if (world.GetTile(node->pos.x, node->pos.y).walkable_) {
+		pos_ = node->pos;
+		world.GetTile(pos_).WalkOn();
 	}
 	else {
 		m_path.reset();		

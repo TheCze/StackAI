@@ -11,10 +11,10 @@ void World::InitWorld() {
   for (int x = 0; x < kTilesWidth; x++) {
     for (int y = 0; y < kTilesHeight; y++) {
       SetPos(x, y, ASCIISymbol(ASCII::get_random_ground(), sf::Color(20, 100, 20, 235)));
-      GetTile(x, y).m_symbol.setBGColor(sf::Color(0, 100, 0, 255));
-      GetTile(x, y).defaultColor=sf::Color(0, 100, 0, 255);
-      GetTile(x, y).usageColor = sf::Color(90, 60, 25, 130);
-      tiles_[XY(x, y)].m_symbol.randomize_shade(20);
+      GetTile(x, y).symbol_.setBGColor(sf::Color(0, 100, 0, 255));
+      GetTile(x, y).defaultColor_=sf::Color(0, 100, 0, 255);
+      GetTile(x, y).usageColor_ = sf::Color(90, 60, 25, 130);
+      tiles_[XY(x, y)].symbol_.randomize_shade(20);
     }
   }
   PlaceRandomStones();
@@ -26,9 +26,9 @@ void World::PlaceRandomStones() {
         int y = random::getInt(settings::WORLD_HEIGHT-1);
         SetPos(x, y, ASCIISymbol(ASCII::sun, sf::Color(50, 50, 50, 235)));
         GetTile(x, y).SetDefaultTileCost(5);
-        GetTile(x, y).m_symbol.setBGColor(sf::Color(0, 100, 0, 255));
-        GetTile(x, y).defaultColor = sf::Color(0, 100, 0, 255);
-        GetTile(x, y).usageColor = sf::Color(50, 50, 50, 100);
+        GetTile(x, y).symbol_.setBGColor(sf::Color(0, 100, 0, 255));
+        GetTile(x, y).defaultColor_ = sf::Color(0, 100, 0, 255);
+        GetTile(x, y).usageColor_ = sf::Color(50, 50, 50, 100);
     }
 }
 
@@ -44,7 +44,7 @@ void World::Renaturalize(float delta) {
             int x = random::getInt(settings::WORLD_WIDTH - 1);
             int y = random::getInt(settings::WORLD_HEIGHT - 1);
             if (IsValid(x, y)) {
-                GetTile(x, y).renaturalize();
+                GetTile(x, y).Renaturalize();
             }
         }
     }
@@ -53,8 +53,8 @@ void World::Renaturalize(float delta) {
 void World::ClearPathDebugWorld() {
     for (int x = 0; x < kTilesWidth; x++) {
         for (int y = 0; y < kTilesHeight; y++) {
-            if(GetTile(x,y).walkable)
-                GetTile(x, y).m_symbol.setColor(sf::Color(20, 50, 20, 0));
+            if(GetTile(x,y).walkable_)
+                GetTile(x, y).symbol_.setColor(sf::Color(20, 50, 20, 0));
         }
     }
 }
@@ -69,37 +69,37 @@ std::vector<Tile> World::GetAdjacents(Pos2D pos) {
     Pos2D down = pos.adjacent(0, 1);
     Pos2D left = pos.adjacent(-1, 0);
     Pos2D right = pos.adjacent(1, 0);
-    if (IsValid(up) && GetTile(up).walkable)
+    if (IsValid(up) && GetTile(up).walkable_)
         adjacents.push_back(GetTile(up));
-    if (IsValid(down) && GetTile(down).walkable)
+    if (IsValid(down) && GetTile(down).walkable_)
         adjacents.push_back(GetTile(down));
-    if (IsValid(left) && GetTile(left).walkable)
+    if (IsValid(left) && GetTile(left).walkable_)
         adjacents.push_back(GetTile(left));
-    if (IsValid(right) && GetTile(right).walkable)
+    if (IsValid(right) && GetTile(right).walkable_)
         adjacents.push_back(GetTile(right));
 
     Pos2D upleft = pos.adjacent(-1, -1);
     Pos2D upright = pos.adjacent(1, -1);
     Pos2D downleft = pos.adjacent(-1, 1);
     Pos2D downright = pos.adjacent(1, 1);
-    if (IsValid(up) && GetTile(up).walkable)
-        if (IsValid(left) && GetTile(left).walkable)
-            if (IsValid(upleft) && GetTile(upleft).walkable)
+    if (IsValid(up) && GetTile(up).walkable_)
+        if (IsValid(left) && GetTile(left).walkable_)
+            if (IsValid(upleft) && GetTile(upleft).walkable_)
                 adjacents.push_back(GetTile(upleft));
 
-    if (IsValid(up) && GetTile(up).walkable)
-        if (IsValid(right) && GetTile(right).walkable)
-            if (IsValid(upright) && GetTile(upright).walkable)
+    if (IsValid(up) && GetTile(up).walkable_)
+        if (IsValid(right) && GetTile(right).walkable_)
+            if (IsValid(upright) && GetTile(upright).walkable_)
                 adjacents.push_back(GetTile(upright));
 
-    if (IsValid(down) && GetTile(down).walkable)
-        if (IsValid(right) && GetTile(right).walkable)
-            if (IsValid(downright) && GetTile(downright).walkable)
+    if (IsValid(down) && GetTile(down).walkable_)
+        if (IsValid(right) && GetTile(right).walkable_)
+            if (IsValid(downright) && GetTile(downright).walkable_)
                 adjacents.push_back(GetTile(downright));
 
-    if (IsValid(down) && GetTile(down).walkable)
-        if (IsValid(left) && GetTile(left).walkable)
-            if (IsValid(downleft) && GetTile(downleft).walkable)
+    if (IsValid(down) && GetTile(down).walkable_)
+        if (IsValid(left) && GetTile(left).walkable_)
+            if (IsValid(downleft) && GetTile(downleft).walkable_)
                 adjacents.push_back(GetTile(downleft));
  
 

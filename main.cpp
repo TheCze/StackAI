@@ -74,7 +74,7 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
     window.clear();
     for (int x = 0; x < settings::WORLD_WIDTH; x++) {
         for (int y = 0; y < settings::WORLD_HEIGHT; y++) {
-           world.GetTile(x, y).m_symbol.draw(window,font,x,y);
+           world.GetTile(x, y).symbol_.draw(window,font,x,y);
         }
     }
     for (auto& actor : actors) {
@@ -109,7 +109,7 @@ void check_input(sf::RenderWindow& window, World& world)
         int tile_y = mousePos.y / settings::TILE_WIDTH;
         if (world.IsValid(tile_x, tile_y)) {
             world.SetPos(tile_x, tile_y, ASCIISymbol(ASCII::block_full));
-            world.GetTile(tile_x, tile_y).walkable = false;
+            world.GetTile(tile_x, tile_y).walkable_ = false;
         }
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && !mouse_right_pressed) {

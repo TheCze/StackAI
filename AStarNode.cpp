@@ -17,6 +17,6 @@ bool operator>(const AStarNode& a, const AStarNode& b)
 
 bool operator==(const AStarNode& a, const AStarNode& b)
 {
-	return a.pathCost == b.pathCost && a.tile.m_pos.x == b.tile.m_pos.x && a.tile.m_pos.y == b.tile.m_pos.y;
+	return a.pathCost == b.pathCost && a.tile.pos_.x == b.tile.pos_.x && a.tile.pos_.y == b.tile.pos_.y;
 }
 

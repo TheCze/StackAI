@@ -7,10 +7,10 @@
 class Actor {
 public: 
 	Actor();
-	Actor(Pos2D pos) : m_symbol(ASCIISymbol(ASCII::face,sf::Color::Red)), m_pos(pos), m_target(pos){}
-	Actor(ASCIISymbol symbol, Pos2D pos): m_symbol(symbol), m_pos(pos), m_target(pos) {}
-	ASCIISymbol m_symbol = ASCIISymbol();
-	Pos2D pos() { return m_pos; }
+	Actor(Pos2D pos) : symbol_(ASCIISymbol(ASCII::face,sf::Color::Red)), pos_(pos), m_target(pos){}
+	Actor(ASCIISymbol symbol, Pos2D pos): symbol_(symbol), pos_(pos), m_target(pos) {}
+	ASCIISymbol symbol_ = ASCIISymbol();
+	Pos2D pos() { return pos_; }
 	void draw(sf::RenderWindow& window, Spritesheet& font);
 	void update(World& world, float delta);
 	bool at_target();
@@ -22,7 +22,7 @@ private:
 	void move(World& world);
 	bool should_move(float delta);
 	bool has_valid_path(World& world);
-	Pos2D m_pos = Pos2D();
+	Pos2D pos_ = Pos2D();
 	Pos2D m_target = Pos2D();
 	void reset_move_timer();
 	void get_random_target();
