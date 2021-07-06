@@ -3,7 +3,7 @@
 #include "ASCIISymbol.h"
 #include "World.h"
 #include "Pos2D.h"
-struct Path;
+#include "Path.h"
 class Actor {
 public: 
 	Actor();

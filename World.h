@@ -3,7 +3,7 @@
 #include "Tile.h"
 #include "Pathfinder.h"
 #include "Pos2D.h"
-struct Path;
+#include "Path.h"
 class World {
  public:
   World();
