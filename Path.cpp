@@ -1,7 +1,7 @@
 #pragma once
 #include "Path.h"
 
-void Path::reverse()
+void Path::ReversePath()
 {
     // Initialize current, previous and
         // next pointers

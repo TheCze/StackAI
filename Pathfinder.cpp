@@ -83,10 +83,10 @@ std::shared_ptr<Path> Pathfinder::ReversePathFromTarget(AStarNode target)
 	std::shared_ptr<Path> path(new Path(target.tile.pos_));
 	while (target.previous) {
 		Pos2D pos = target.previous->tile.pos_;
-		path->addNode(pos);
+		path->AddNode(pos);
 		target = *target.previous;
 	}
-	path->reverse();
+	path->ReversePath();
 	return path;
 }
 
@@ -95,7 +95,7 @@ std::shared_ptr<Path> Pathfinder::GetTrivialPath(World& world, Pos2D start, Pos2
 	std::shared_ptr<Path> path(new Path(start));
 	while (start != target) {
 		start = FindNext(start, target);
-		path->addNode(start);
+		path->AddNode(start);
 	}
 	return path;
 }

@@ -57,7 +57,7 @@ bool Actor::HasValidPath(World& world)
 
 void Actor::Move(World& world)
 {
-	auto node = path_->get_next();
+	auto node = path_->GetNext();
 	if (world.GetTile(node->pos.x, node->pos.y).walkable_) {
 		pos_ = node->pos;
 		world.GetTile(pos_).WalkOn();
