@@ -15,13 +15,13 @@ void ASCIISymbol::randomize_shade(int intensity)
 void ASCIISymbol::draw(sf::RenderWindow& window, Spritesheet& font, float x, float y)
 {
 	if (m_bgcolor != sf::Color::Transparent) {
-		Sprite& bgsprite = font.getSprite(m_bgtilecode);
+		Sprite& bgsprite = font.GetSprite(m_bgtilecode);
 		bgsprite.setColor(getBGColor());
 		bgsprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
 		window.draw(bgsprite);
 	}
 
-	Sprite sprite = font.getSprite(m_tilecode);
+	Sprite sprite = font.GetSprite(m_tilecode);
 	sprite.setColor(getColor());
 	sprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
 	window.draw(sprite);

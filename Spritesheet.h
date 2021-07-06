@@ -7,14 +7,14 @@ using namespace sf;
 
 class Spritesheet{
 private:
-	Texture* m_sheet=nullptr;
-	Sprite m_sprite;
-	int m_glyphs_x=0;
-	int m_glyphs_y=0;
-	IntRect getSpriteArea(int i);
+	Texture* sheet_=nullptr;
+	Sprite sprite_;
+	int glyphs_x_=0;
+	int glyphs_y_=0;
+	IntRect GetSpriteArea(int i);
 public:
 	Spritesheet(Texture* texture);
-	Sprite& getSprite(unsigned __int8 i);
+	Sprite& GetSprite(unsigned __int8 i);
 };
 
 
