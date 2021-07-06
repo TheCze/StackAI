@@ -4,3 +4,4 @@ Debug/CodeAnalysisResultManifest.txt
 *.obj
 Debug
 Release
+cpplint.py

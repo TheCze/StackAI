@@ -24,7 +24,7 @@ void Actor::update(World& world, float delta)
 				get_random_target();
 		}
 		else {
-			m_path=world.get_path(m_pos, m_target);
+			m_path=world.GetPath(m_pos, m_target);
 			if (!m_path)
 				get_random_target();
 		}
@@ -58,9 +58,9 @@ bool Actor::has_valid_path(World& world)
 void Actor::move(World& world)
 {
 	auto node = m_path->get_next();
-	if (world.getPos(node->pos.x, node->pos.y).walkable) {
+	if (world.GetTile(node->pos.x, node->pos.y).walkable) {
 		m_pos = node->pos;
-		world.getPos(m_pos).walk_on();
+		world.GetTile(m_pos).walk_on();
 	}
 	else {
 		m_path.reset();		

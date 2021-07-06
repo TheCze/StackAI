@@ -8,24 +8,24 @@ class World {
  public:
   World();
   ~World();
-  static const int tiles_w = settings::WORLD_WIDTH;
-  static const int tiles_h = settings::WORLD_HEIGHT;
-  Tile* tiles;
-  Tile& getPos(int x, int y) { return tiles[xy(x, y)];}
-  Tile& getPos(Pos2D pos) { return getPos(pos.x, pos.y); }
-  void setPos(int x, int y, Tile t) { t.m_pos.x = x; t.m_pos.y = y; tiles[xy(x, y)] = t; }
-  std::shared_ptr<Path> get_path(Pos2D start, Pos2D target);
-  std::vector<Tile> get_adjacents(Pos2D);
-  bool is_valid(int x, int y) { return x < tiles_w&& y < tiles_h && x >= 0 && y >= 0; }
-  bool is_valid(Pos2D pos) { return is_valid(pos.x,pos.y); }
-  Pathfinder pathfinder;
-  void clearWorld();
-  void update(float delta);
+  static const int kTilesWidth = settings::WORLD_WIDTH;
+  static const int kTilesHeight = settings::WORLD_HEIGHT;
+  Tile* tiles_;
+  Tile& GetTile(int x, int y) { return tiles_[XY(x, y)];}
+  Tile& GetTile(Pos2D pos) { return GetTile(pos.x, pos.y); }
+  void SetPos(int x, int y, Tile t) { t.m_pos.x = x; t.m_pos.y = y; tiles_[XY(x, y)] = t; }
+  std::shared_ptr<Path> GetPath(Pos2D start, Pos2D target);
+  std::vector<Tile> GetAdjacents(Pos2D);
+  bool IsValid(int x, int y) { return x < kTilesWidth&& y < kTilesHeight && x >= 0 && y >= 0; }
+  bool IsValid(Pos2D pos) { return IsValid(pos.x,pos.y); }
+  Pathfinder pathfinder_;
+  void ClearPathDebugWorld();
+  void Update(float delta);
  private:
-  void initWorld();
-  void placeRandomStones();
-  void renaturalize(float delta);
-  int xy(int& x, int& y);
-  float renaturalization_perc = 0.001f;
-  float renaturalization_time = 1.0f;
+  void InitWorld();
+  void PlaceRandomStones();
+  void Renaturalize(float delta);
+  int XY(int& x, int& y);
+  float kRenaturalizationPercentage = 0.001f;
+  float renaturalization_time_ = 1.0f;
 };
