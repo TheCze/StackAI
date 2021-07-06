@@ -1,0 +1,6 @@
+﻿Debug/StackAI.tlog
+*.sarif
+Debug/CodeAnalysisResultManifest.txt
+*.obj
+Debug
+Release
