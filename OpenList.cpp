@@ -1,7 +1,7 @@
 #pragma once
 #include "OpenList.h"
 
-void OpenList::addOrUpdate(AStarNode new_node)
+void OpenList::AddOrUpdate(AStarNode new_node)
 {
 	for (AStarNode& node : list) {
 		if (node.tile.pos_ == new_node.tile.pos_) {
@@ -15,7 +15,7 @@ void OpenList::addOrUpdate(AStarNode new_node)
 	list.push_back(new_node);
 }
 
-AStarNode OpenList::popLowestCost()
+AStarNode OpenList::PopLowestCost()
 {
 	//print();
 	auto low_point = std::max_element(list.begin(),list.end());
@@ -36,7 +36,7 @@ AStarNode OpenList::popLowestCost()
 	//return lowest;
 }
 
-void OpenList::print()
+void OpenList::DebugPrint()
 {
 	std::cout << "==Open List==" << std::endl;
 	for (AStarNode& node : list) {

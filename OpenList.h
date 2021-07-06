@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
 #include "AStarNode.h"
-class OpenList {
-public:
-	std::vector<AStarNode> list;
-	void addOrUpdate(AStarNode node);
-	AStarNode popLowestCost();
-	void print();
+struct OpenList {
+	void AddOrUpdate(AStarNode node);
+	AStarNode PopLowestCost();
+	void DebugPrint();
 	bool empty() { return list.empty(); };
 	int size() { return list.size(); }
+private:
+	std::vector<AStarNode> list;
 };

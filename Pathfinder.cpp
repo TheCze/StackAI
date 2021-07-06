@@ -29,11 +29,11 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 	OpenList openlist;
 	ClosedList closedlist;
 	anode_ptr start_node(new AStarNode(world.GetTile(start)));
-	openlist.addOrUpdate(*start_node);
+	openlist.AddOrUpdate(*start_node);
 	int i = 0;
 	while (!openlist.empty()) {
 		i++;
-		AStarNode current = openlist.popLowestCost();
+		AStarNode current = openlist.PopLowestCost();
 		if (current.tile.pos_ == target) {
 			auto path = ReversePathFromTarget(current);
 			int length = path->length();
@@ -55,7 +55,7 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 			anode_ptr cur(new AStarNode(current));
 			AStarNode next = AStarNode(estcost, pathcost, cur, t);
 			if(!closedlist.contains(next))
-				openlist.addOrUpdate(next);
+				openlist.AddOrUpdate(next);
 		}
 		current.estCost = 0;
 		closedlist.add(current);
