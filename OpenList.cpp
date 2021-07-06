@@ -5,8 +5,8 @@ void OpenList::AddOrUpdate(AStarNode new_node)
 {
 	for (AStarNode& node : list) {
 		if (node.tile.pos_ == new_node.tile.pos_) {
-			if (node.pathCost > new_node.pathCost) {
-				node.pathCost = new_node.pathCost;
+			if (node.pathcost > new_node.pathcost) {
+				node.pathcost = new_node.pathcost;
 				return;
 			}
 			return;
@@ -43,10 +43,10 @@ void OpenList::DebugPrint()
 		if (node.previous)
 		std::cout << node.tile.pos_.x << " / " << node.tile.pos_.y << " (From: "
 			<< node.previous->tile.pos_.x << " / " << node.previous->tile.pos_.y << ")" << std::endl
-			<<"Tile: " << node.pathCost <<" Heuristic: "<< node.estCost- node.pathCost << " Total: " << node.estCost << std::endl;
+			<<"Tile: " << node.pathcost <<" Heuristic: "<< node.estcost- node.pathcost << " Total: " << node.estcost << std::endl;
 		else {
 			std::cout << node.tile.pos_.x << " / " << node.tile.pos_.y << " (START)" << std::endl
-				<< "Tile: " << node.pathCost << " Heuristic: " << node.estCost - node.pathCost << " Total: " << node.estCost << std::endl;
+				<< "Tile: " << node.pathcost << " Heuristic: " << node.estcost - node.pathcost << " Total: " << node.estcost << std::endl;
 		}
 	}
 	std::cout << "===============" << std::endl;

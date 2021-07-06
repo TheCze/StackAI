@@ -3,20 +3,20 @@
 
 bool operator<(const AStarNode& a, const AStarNode& b)
 {
-	if (a.estCost == b.estCost)
-		return a.pathCost < b.pathCost;
-	return a.estCost >b.estCost;
+	if (a.estcost == b.estcost)
+		return a.pathcost < b.pathcost;
+	return a.estcost >b.estcost;
 }
 
 bool operator>(const AStarNode& a, const AStarNode& b)
 {
-	if (a.estCost == b.estCost)
-		return a.pathCost > b.pathCost;
-	return a.estCost < b.estCost;
+	if (a.estcost == b.estcost)
+		return a.pathcost > b.pathcost;
+	return a.estcost < b.estcost;
 }
 
 bool operator==(const AStarNode& a, const AStarNode& b)
 {
-	return a.pathCost == b.pathCost && a.tile.pos_.x == b.tile.pos_.x && a.tile.pos_.y == b.tile.pos_.y;
+	return a.pathcost == b.pathcost && a.tile.pos_.x == b.tile.pos_.x && a.tile.pos_.y == b.tile.pos_.y;
 }
 

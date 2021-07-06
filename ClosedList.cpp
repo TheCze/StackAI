@@ -21,7 +21,7 @@ void ClosedList::DebugPrint()
 	for (AStarNode& node : list) {
 		if(node.previous)
 		std::cout << "Pos: " << node.tile.pos_.x << " / " << node.tile.pos_.y <<" (From: "
-			<< node.previous->tile.pos_.x << " / " << node.previous->tile.pos_.y << ")" << " Cost: "<< node.pathCost << std::endl;
+			<< node.previous->tile.pos_.x << " / " << node.previous->tile.pos_.y << ")" << " Cost: "<< node.pathcost << std::endl;
 		else
 			std::cout << "Pos: " << node.tile.pos_.x << " / " << node.tile.pos_.y << " (START)" << std::endl;
 	}

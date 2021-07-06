@@ -48,7 +48,7 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 		}
 		auto adjacents = world.GetAdjacents(current.tile.pos_);
 		for (Tile& t : adjacents) {
-			float pathcost = current.pathCost + t.GetTileCost() * DiagonalMod(current.tile.pos_, t.pos_);
+			float pathcost = current.pathcost + t.GetTileCost() * DiagonalMod(current.tile.pos_, t.pos_);
 			//pathcost *= diagonal_mod(current.tile.m_pos, t.m_pos);
 			float heur = Heuristic(t.pos_, target);
 			float estcost = pathcost + heur;
@@ -57,7 +57,7 @@ std::shared_ptr<Path> Pathfinder::FindAstar(World& world, Pos2D start, Pos2D tar
 			if(!closedlist.contains(next))
 				openlist.AddOrUpdate(next);
 		}
-		current.estCost = 0;
+		current.estcost = 0;
 		closedlist.add(current);
 		//while (clock.getElapsedTime().asSeconds() < step_time) {			
 		//}			
