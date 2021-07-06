@@ -3,31 +3,31 @@
 #include "Randomizer.h"
 #include "Spritesheet.h"
 
-void ASCIISymbol::randomize_shade(int intensity)
+void ASCIISymbol::RandomizeShade(int intensity)
 {
 	int random = random::getInt(intensity);
-	sf::Uint8 r = m_color.r - random;
-	sf::Uint8 g = m_color.g - random;
-	sf::Uint8 b = m_color.b - random;
-	m_color = sf::Color(clamp_colors(r), clamp_colors(g), clamp_colors(b), 255);
+	sf::Uint8 r = color_.r - random;
+	sf::Uint8 g = color_.g - random;
+	sf::Uint8 b = color_.b - random;
+	color_ = sf::Color(ClampColors(r), ClampColors(g), ClampColors(b), 255);
 }
 
-void ASCIISymbol::draw(sf::RenderWindow& window, Spritesheet& font, float x, float y)
+void ASCIISymbol::Draw(sf::RenderWindow& window, Spritesheet& font, float x, float y)
 {
-	if (m_bgcolor != sf::Color::Transparent) {
-		Sprite& bgsprite = font.GetSprite(m_bgtilecode);
-		bgsprite.setColor(getBGColor());
+	if (bgcolor_ != sf::Color::Transparent) {
+		Sprite& bgsprite = font.GetSprite(bgtilecode_);
+		bgsprite.setColor(GetBGColor());
 		bgsprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
 		window.draw(bgsprite);
 	}
 
-	Sprite sprite = font.GetSprite(m_tilecode);
-	sprite.setColor(getColor());
+	Sprite sprite = font.GetSprite(tilecode_);
+	sprite.setColor(GetColor());
 	sprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
 	window.draw(sprite);
 }
 
-sf::Uint8 ASCIISymbol::clamp_colors(sf::Uint8 x)
+sf::Uint8 ASCIISymbol::ClampColors(sf::Uint8 x)
 {
 	if (x < 0)
 		return 0;

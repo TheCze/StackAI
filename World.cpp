@@ -11,10 +11,10 @@ void World::InitWorld() {
   for (int x = 0; x < kTilesWidth; x++) {
     for (int y = 0; y < kTilesHeight; y++) {
       SetPos(x, y, ASCIISymbol(ASCII::get_random_ground(), sf::Color(20, 100, 20, 235)));
-      GetTile(x, y).symbol_.setBGColor(sf::Color(0, 100, 0, 255));
+      GetTile(x, y).symbol_.SetBGColor(sf::Color(0, 100, 0, 255));
       GetTile(x, y).defaultColor_=sf::Color(0, 100, 0, 255);
       GetTile(x, y).usageColor_ = sf::Color(90, 60, 25, 130);
-      tiles_[XY(x, y)].symbol_.randomize_shade(20);
+      tiles_[XY(x, y)].symbol_.RandomizeShade(20);
     }
   }
   PlaceRandomStones();
@@ -26,7 +26,7 @@ void World::PlaceRandomStones() {
         int y = random::getInt(settings::WORLD_HEIGHT-1);
         SetPos(x, y, ASCIISymbol(ASCII::sun, sf::Color(50, 50, 50, 235)));
         GetTile(x, y).SetDefaultTileCost(5);
-        GetTile(x, y).symbol_.setBGColor(sf::Color(0, 100, 0, 255));
+        GetTile(x, y).symbol_.SetBGColor(sf::Color(0, 100, 0, 255));
         GetTile(x, y).defaultColor_ = sf::Color(0, 100, 0, 255);
         GetTile(x, y).usageColor_ = sf::Color(50, 50, 50, 100);
     }
@@ -54,7 +54,7 @@ void World::ClearPathDebugWorld() {
     for (int x = 0; x < kTilesWidth; x++) {
         for (int y = 0; y < kTilesHeight; y++) {
             if(GetTile(x,y).walkable_)
-                GetTile(x, y).symbol_.setColor(sf::Color(20, 50, 20, 0));
+                GetTile(x, y).symbol_.SetColor(sf::Color(20, 50, 20, 0));
         }
     }
 }

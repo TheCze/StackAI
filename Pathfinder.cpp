@@ -138,14 +138,14 @@ void Pathfinder::DebugRender(sf::RenderWindow* window, World& world, Spritesheet
 {
 	window->clear();
 	ASCIISymbol p = ASCIISymbol(ASCII::double_bang, Color(50, 20, 150, 250));
-	p.draw(*window, *font, (float)target.x, (float)target.y);
+	p.Draw(*window, *font, (float)target.x, (float)target.y);
 	for (int x = 0; x < settings::WORLD_WIDTH; x++) {
 		for (int y = 0; y < settings::WORLD_HEIGHT; y++) {
-			world.GetTile(x, y).symbol_.draw(*window, *font, x, y);
+			world.GetTile(x, y).symbol_.Draw(*window, *font, x, y);
 		}
 	}
 	ASCIISymbol at = ASCIISymbol(ASCII::face, Color(255, 00, 0, 255));
-	at.draw(*window, *font, (float)start.x, (float)start.y);
+	at.Draw(*window, *font, (float)start.x, (float)start.y);
 	window->display();	
 }
 
@@ -157,7 +157,7 @@ void Pathfinder::DisplayList(World& world, std::vector<AStarNode>& list, int sym
 	//	color.g = h;
 	//	color.b = h;
 		Tile t = Tile(ASCIISymbol(symbol, color),pos);
-		world.GetTile(pos.x, pos.y).symbol_.setColor(color);
+		world.GetTile(pos.x, pos.y).symbol_.SetColor(color);
 	}
 }
 

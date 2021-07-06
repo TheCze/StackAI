@@ -74,7 +74,7 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
     window.clear();
     for (int x = 0; x < settings::WORLD_WIDTH; x++) {
         for (int y = 0; y < settings::WORLD_HEIGHT; y++) {
-           world.GetTile(x, y).symbol_.draw(window,font,x,y);
+           world.GetTile(x, y).symbol_.Draw(window,font,x,y);
         }
     }
     for (auto& actor : actors) {
@@ -89,7 +89,7 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
                 node = node->next;
             }
         }*/
-        actor.draw(window, font);
+        actor.Draw(window, font);
     }
     window.display();
 }

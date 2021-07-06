@@ -11,7 +11,7 @@ public:
 	Actor(ASCIISymbol symbol, Pos2D pos): symbol_(symbol), pos_(pos), m_target(pos) {}
 	ASCIISymbol symbol_ = ASCIISymbol();
 	Pos2D pos() { return pos_; }
-	void draw(sf::RenderWindow& window, Spritesheet& font);
+	void Draw(sf::RenderWindow& window, Spritesheet& font);
 	void update(World& world, float delta);
 	bool at_target();
 	void set_target(Pos2D pos) { m_target = pos; m_path.reset(); }

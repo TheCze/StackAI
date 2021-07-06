@@ -3,22 +3,22 @@
 #include "Spritesheet.h"
 #include "ASCII.h"
 struct ASCIISymbol {
-	ASCIISymbol() : m_tilecode(0), m_color(sf::Color::White) {  }
-	ASCIISymbol(int tilecode) : m_tilecode(tilecode), m_color(sf::Color::White) {  }
-	ASCIISymbol(int tilecode, sf::Color color): m_tilecode(tilecode), m_color(color){  }
-	int getTileCode() { return m_tilecode; }
-	void setTileCode(int tilecode) {  }
-	sf::Color& getColor() { return m_color; }
-	sf::Color& getBGColor() { return m_bgcolor; }
-	void setColor(sf::Color c) { m_color = c; }
-	void setBGColor(sf::Color c) { m_bgcolor = c; }
-	void randomize_shade(int intensity);
-	void draw(sf::RenderWindow& window, Spritesheet& font, float x, float y);
+	ASCIISymbol() : tilecode_(0), color_(sf::Color::White) {  }
+	ASCIISymbol(int tilecode) : tilecode_(tilecode), color_(sf::Color::White) {  }
+	ASCIISymbol(int tilecode, sf::Color color): tilecode_(tilecode), color_(color){  }
+	int GetTileCode() { return tilecode_; }
+	void SetTileCode(int tilecode) {  }
+	sf::Color& GetColor() { return color_; }
+	sf::Color& GetBGColor() { return bgcolor_; }
+	void SetColor(sf::Color c) { color_ = c; }
+	void SetBGColor(sf::Color c) { bgcolor_ = c; }
+	void RandomizeShade(int intensity);
+	void Draw(sf::RenderWindow& window, Spritesheet& font, float x, float y);
 private:
-	int m_tilecode=0;
-	int m_bgtilecode = ASCII::block_full;
-	sf::Color m_bgcolor = sf::Color::Transparent;
-	sf::Color m_color=sf::Color::White;
-	sf::Uint8 clamp_colors(sf::Uint8 x);
+	int tilecode_=0;
+	int bgtilecode_ = ASCII::block_full;
+	sf::Color bgcolor_ = sf::Color::Transparent;
+	sf::Color color_=sf::Color::White;
+	sf::Uint8 ClampColors(sf::Uint8 x);
 	
 };

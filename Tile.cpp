@@ -23,10 +23,10 @@ void Tile::UpdateColors()
 	float g_dif = defaultColor_.g - usageColor_.g;
 	float b_dif = defaultColor_.b - usageColor_.b;
 	float a_dif = defaultColor_.a - usageColor_.a;
-	symbol_.getBGColor().r = defaultColor_.r - (r_dif * usage_);
-	symbol_.getBGColor().g = defaultColor_.g - (g_dif * usage_);
-	symbol_.getBGColor().b = defaultColor_.b - (b_dif * usage_);
-	symbol_.getBGColor().a = defaultColor_.a - (a_dif * usage_);
+	symbol_.GetBGColor().r = defaultColor_.r - (r_dif * usage_);
+	symbol_.GetBGColor().g = defaultColor_.g - (g_dif * usage_);
+	symbol_.GetBGColor().b = defaultColor_.b - (b_dif * usage_);
+	symbol_.GetBGColor().a = defaultColor_.a - (a_dif * usage_);
 }
 
 float Tile::GetTileCost()

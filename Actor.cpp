@@ -10,9 +10,9 @@ Actor::Actor()
 {
 	symbol_ = ASCIISymbol(ASCII::at, sf::Color::Red);
 }
-void Actor::draw(sf::RenderWindow& window, Spritesheet& font)
+void Actor::Draw(sf::RenderWindow& window, Spritesheet& font)
 {
-	symbol_.draw(window, font, (float)pos_.x, (float)pos_.y);
+	symbol_.Draw(window, font, (float)pos_.x, (float)pos_.y);
 }
 
 void Actor::update(World& world, float delta)
