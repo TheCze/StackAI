@@ -3,13 +3,13 @@
 
 bool ClosedList::contains(AStarNode new_node)
 {
-	return set.find(new_node.GetHash())!=set.end();
+	return set.find(new_node.GetCantor())!=set.end();
 }
 
 void ClosedList::add(AStarNode node)
 {
 	list.push_back(node);
-	set.insert(node.GetHash());
+	set.insert(node.GetCantor());
 }
 
 void ClosedList::DebugPrint()

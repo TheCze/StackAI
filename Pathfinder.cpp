@@ -15,8 +15,9 @@
 float sqr2 = 1.41421356237f;
 std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D target)
 {
-	if (!IsReachable(world,start,target))
+	if (!IsReachable(world, start, target)) {
 		return nullptr;
+	}
 	OpenList openlist;
 	ClosedList closedlist;
 	anode_ptr start_node(new AStarNode(world.GetTile(start)));
@@ -39,9 +40,8 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	return nullptr;
 }
 
-bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
-	if (!world.GetTile(target).walkable_)
-		return false;
+bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {	
+	return world.GetTile(target).walkable_;
 }
 
 float Pathfinder::Heuristic(Pos2D start, Pos2D target) {
@@ -60,13 +60,13 @@ std::shared_ptr<Path> Pathfinder::ReversePathFromTarget(AStarNode target)
 	return path;
 }
 
-float Pathfinder::ManhattanDistance(Pos2D start, Pos2D target)
+const float Pathfinder::ManhattanDistance(Pos2D& start, Pos2D& target)
 {
 	float cost = (float)std::abs(start.x - target.x) + (float)std::abs(start.y - target.y);
 	return cost;
 }
 
-float Pathfinder::SemiEuclidDistance(Pos2D start, Pos2D target)
+const float Pathfinder::SemiEuclidDistance(Pos2D& start, Pos2D& target)
 {
 	float cost = 0;
 	int dif_x = std::abs(start.x - target.x);
@@ -77,7 +77,7 @@ float Pathfinder::SemiEuclidDistance(Pos2D start, Pos2D target)
 	return cost;
 }
 
-float Pathfinder::DiagonalMod(Pos2D a, Pos2D b)
+const float Pathfinder::DiagonalMod(Pos2D& a, Pos2D& b)
 {
 	if (ManhattanDistance(a, b) == 1)
 		return 1;

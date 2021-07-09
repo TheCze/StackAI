@@ -17,7 +17,7 @@ public:
 private:
 	float Heuristic(Pos2D start, Pos2D target);
 	std::shared_ptr<Path> ReversePathFromTarget(AStarNode target);
-	float ManhattanDistance(Pos2D start, Pos2D target);
-	float SemiEuclidDistance(Pos2D start, Pos2D target);
-	float DiagonalMod(Pos2D a, Pos2D b);
+	const float ManhattanDistance(Pos2D& start, Pos2D& target);
+	const float SemiEuclidDistance(Pos2D& start, Pos2D& target);
+	const float DiagonalMod(Pos2D& a, Pos2D& b);
 };

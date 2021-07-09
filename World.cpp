@@ -59,11 +59,11 @@ void World::ClearPathDebugWorld() {
     }
 }
 
-std::shared_ptr<Path> World::GetPath(Pos2D start, Pos2D target) {
+std::shared_ptr<Path> World::GetPath(Pos2D& start, Pos2D& target) {
     return pathfinder_.GetPath(*this, start, target);
 }
 
-std::vector<Tile> World::GetAdjacents(Pos2D pos) {
+std::vector<Tile> World::GetAdjacents(Pos2D& pos) {
     std::vector<Tile> adjacents;
     Pos2D up = pos.Adjacent(0, -1);
     Pos2D down = pos.Adjacent(0, 1);

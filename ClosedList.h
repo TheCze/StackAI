@@ -12,6 +12,6 @@ public:
 	void DebugPrint();
 private:
 	std::vector<AStarNode> list;
-	std::unordered_set<float> set;
+	std::unordered_set<int> set;
 
 };
