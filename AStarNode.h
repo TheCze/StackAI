@@ -8,10 +8,17 @@ struct AStarNode {
 	float pathcost;
 	anode_ptr previous;
 	Tile tile;
-	AStarNode(float cost, float path, anode_ptr origin, Tile t): estcost(cost) , pathcost(path), previous(origin) , tile(t){}
+	AStarNode(float cost, float path, anode_ptr origin, Tile t): estcost(cost), pathcost(path), previous(origin), tile(t) {}
 	AStarNode(Tile t) : estcost(0), pathcost(0), tile(t) {}
 
 	friend bool operator<(const AStarNode& a, const AStarNode& b);
 	friend bool operator>(const AStarNode& a, const AStarNode& b);
 	friend bool operator==(const AStarNode& a, const AStarNode& b);
+
+	float GetHash() {
+		float hash = tile.pos_.y;
+		while (hash > 1)
+			hash /= 10;
+		return hash + tile.pos_.x;
+	}
 };

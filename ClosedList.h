@@ -1,6 +1,8 @@
 #pragma once
 #include "AStarNode.h"
 #include <set>
+#include <unordered_set>
+
 struct ClosedList {
 public:
 	bool contains(AStarNode node);
@@ -10,4 +12,6 @@ public:
 	void DebugPrint();
 private:
 	std::vector<AStarNode> list;
+	std::unordered_set<float> set;
+
 };

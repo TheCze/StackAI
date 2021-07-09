@@ -3,16 +3,13 @@
 
 bool ClosedList::contains(AStarNode new_node)
 {
-	for (auto& node : list) {
-		if (node.tile.pos_ == new_node.tile.pos_)
-			return true;
-	}
-	return false;
+	return set.find(new_node.GetHash())!=set.end();
 }
 
 void ClosedList::add(AStarNode node)
 {
 	list.push_back(node);
+	set.insert(node.GetHash());
 }
 
 void ClosedList::DebugPrint()
