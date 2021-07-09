@@ -15,7 +15,7 @@
 float sqr2 = 1.41421356237f;
 std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D target)
 {
-	if (!world.GetTile(target).walkable_)
+	if (!IsReachable(world,start,target))
 		return nullptr;
 	OpenList openlist;
 	ClosedList closedlist;
@@ -37,6 +37,11 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 		closedlist.add(current);	
 	}	
 	return nullptr;
+}
+
+bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
+	if (!world.GetTile(target).walkable_)
+		return false;
 }
 
 float Pathfinder::Heuristic(Pos2D start, Pos2D target) {

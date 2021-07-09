@@ -10,6 +10,7 @@ typedef std::shared_ptr<AStarNode> anode_ptr;
 class Pathfinder {
 public:
 	std::shared_ptr<Path> GetPath(World& world, Pos2D start, Pos2D target);
+	bool IsReachable(World& world, Pos2D start, Pos2D target);
 	sf::RenderWindow* window_;
 	Spritesheet* font_;
 
