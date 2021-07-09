@@ -22,19 +22,19 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	anode_ptr start_node(new AStarNode(world.GetTile(start)));
 	openlist.AddOrUpdate(*start_node);
 	while (!openlist.empty()) {
-		AStarNode current = openlist.PopLowestCost();
-		if (current.tile.pos_ == target) {
-			return ReversePathFromTarget(current);
+		AStarNode current_node = openlist.PopLowestCost();
+		if (current_node.tile.pos_ == target) {
+			return ReversePathFromTarget(current_node);
 		}
-		auto adjacents = world.GetAdjacents(current.tile.pos_);
-		anode_ptr cur(new AStarNode(current));
+		auto adjacents = world.GetAdjacents(current_node.tile.pos_);
+		anode_ptr cur(new AStarNode(current_node));
 		for (Tile& t : adjacents) {
-			float pathcost = current.pathcost + t.GetTileCost() * DiagonalMod(current.tile.pos_, t.pos_);
+			float pathcost = current_node.pathcost + t.GetTileCost() * DiagonalMod(current_node.tile.pos_, t.pos_);
 			AStarNode next = AStarNode(pathcost + Heuristic(t.pos_, target), pathcost, cur, t);
 			if(!closedlist.contains(next))
 				openlist.AddOrUpdate(next);
 		}
-		closedlist.add(current);	
+		closedlist.add(current_node);	
 	}	
 	return nullptr;
 }
