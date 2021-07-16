@@ -178,6 +178,7 @@ namespace ASCII {
 	static const int block_half_left = 221;
 	static const int block_half_right = 222;
 	static const int block_half_up = 223;
+	static const int filled = 255;
 
 
 	static int get_random_ground() {

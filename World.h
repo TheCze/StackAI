@@ -4,6 +4,7 @@
 #include "Pathfinder.h"
 #include "Pos2D.h"
 #include "Path.h"
+
 class World {
  public:
   World();
@@ -21,6 +22,8 @@ class World {
   Pathfinder pathfinder_;
   void ClearPathDebugWorld();
   void Update(float delta);
+  void ToggleWalkable(Pos2D pos);
+  void SetWall(Pos2D pos, bool place);
  private:
   void InitWorld();
   void PlaceRandomStones();

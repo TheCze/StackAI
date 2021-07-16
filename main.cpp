@@ -15,7 +15,6 @@ using namespace sf;
 std::vector<Actor> actors;
 sf::Clock deltaClock;
 
-bool mouse_right_pressed = false;
 
 Texture* loadTexture(std::string path) {
     sf::Texture* texture = new Texture;
@@ -77,6 +76,12 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
            world.GetTile(x, y).symbol_.Draw(window,font,x,y);
         }
     }
+
+    for (auto navrec : world.pathfinder_.navrecs) {
+        ASCIISymbol box = ASCIISymbol(ASCII::filled, navrec->color);
+        box.Draw(window, font, navrec->start, navrec->size);
+    }
+
     for (auto& actor : actors) {
         /*if (actor.m_path) {
             ASCIISymbol p = ASCIISymbol(ASCII::hash, Color(50, 20, 150, 250));
@@ -93,7 +98,8 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
     }
     window.display();
 }
-
+bool mouse_l_pressed = false;
+bool mouse_r_pressed = false;
 void check_input(sf::RenderWindow& window, World& world)
 {
     sf::Event event;
@@ -102,26 +108,25 @@ void check_input(sf::RenderWindow& window, World& world)
         if (event.type == sf::Event::Closed)
             window.close();
     }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        int tile_x = mousePos.x / settings::TILE_WIDTH;
-        int tile_y = mousePos.y / settings::TILE_WIDTH;
-        if (world.IsValid(tile_x, tile_y)) {
-            world.SetPos(tile_x, tile_y, ASCIISymbol(ASCII::block_full));
-            world.GetTile(tile_x, tile_y).walkable_ = false;
-        }
+    sf::Vector2i sfmousePos = sf::Mouse::getPosition(window);
+    int tile_x = sfmousePos.x / settings::TILE_WIDTH;
+    int tile_y = sfmousePos.y / settings::TILE_WIDTH;
+    Pos2D mousepos = Pos2D(tile_x, tile_y);
+    if (!world.IsValid(mousepos)) {
+        return;
     }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && !mouse_right_pressed) {
-        mouse_right_pressed = true;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        world.SetWall(mousepos, true);
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+        world.SetWall(mousepos, false);
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
         int tile_x = mousePos.x / settings::TILE_WIDTH;
         int tile_y = mousePos.y / settings::TILE_WIDTH;
         if (world.IsValid(tile_x, tile_y)) {
             actors.front().SetTarget(Pos2D(tile_x, tile_y));
         }
-    }
-    else {
-        mouse_right_pressed = false;
     }
 }

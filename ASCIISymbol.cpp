@@ -14,18 +14,25 @@ void ASCIISymbol::RandomizeShade(int intensity)
 
 void ASCIISymbol::Draw(sf::RenderWindow& window, Spritesheet& font, float x, float y)
 {
+	Draw(window, font, Pos2D(x,y), Pos2D(1,1));
+}
+
+void ASCIISymbol::Draw(sf::RenderWindow& window, Spritesheet& font, Pos2D pos, Pos2D scale)
+{
 	if (bgcolor_ != sf::Color::Transparent) {
 		Sprite& bgsprite = font.GetSprite(bgtilecode_);
 		bgsprite.setColor(GetBGColor());
-		bgsprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
+		bgsprite.setPosition(pos.x * settings::TILE_WIDTH, pos.y * settings::TILE_WIDTH);
 		window.draw(bgsprite);
 	}
 
 	Sprite sprite = font.GetSprite(tilecode_);
 	sprite.setColor(GetColor());
-	sprite.setPosition(x * settings::TILE_WIDTH, y * settings::TILE_WIDTH);
+	sprite.setPosition(pos.x * settings::TILE_WIDTH, pos.y * settings::TILE_WIDTH);
+	sprite.setScale(sf::Vector2f(scale.x, scale.y));
 	window.draw(sprite);
 }
+
 
 sf::Uint8 ASCIISymbol::ClampColors(sf::Uint8 x)
 {

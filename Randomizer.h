@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <time.h>
+#include <SFML/Graphics.hpp>
 namespace random {
 	static bool r_init = false;
 	static void init() {
@@ -24,5 +25,14 @@ namespace random {
 	static bool getBool() {
 		init();
 		return rand() % 2;
+	}
+
+	static sf::Color getRandomColor() {
+		init();
+		sf::Color c = sf::Color::White;
+		c.r = getInt(255);
+		c.g = getInt(255);
+		c.b = getInt(255);
+		return c;
 	}
 }

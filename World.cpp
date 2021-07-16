@@ -17,7 +17,8 @@ void World::InitWorld() {
       tiles_[XY(x, y)].symbol_.RandomizeShade(20);
     }
   }
-  PlaceRandomStones();
+  //PlaceRandomStones();
+  pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
 }
 
 void World::PlaceRandomStones() {
@@ -61,6 +62,39 @@ void World::ClearPathDebugWorld() {
 
 std::shared_ptr<Path> World::GetPath(Pos2D& start, Pos2D& target) {
     return pathfinder_.GetPath(*this, start, target);
+}
+
+void World::ToggleWalkable(Pos2D pos) {
+    if (GetTile(pos).walkable_) {
+        GetTile(pos).symbol_.SetTileCode(ASCII::block_full);
+        GetTile(pos).symbol_.SetColor(sf::Color::White);
+        GetTile(pos).walkable_ = false;
+    }
+    else {
+        GetTile(pos).symbol_.SetTileCode(ASCII::get_random_ground());
+        GetTile(pos).symbol_.SetColor(sf::Color(20, 100, 20, 235));
+        GetTile(pos).symbol_.SetBGColor(sf::Color(0, 100, 0, 255));
+        GetTile(pos).defaultColor_ = sf::Color(0, 100, 0, 255);
+        GetTile(pos).usageColor_ = sf::Color(90, 60, 25, 130);
+        GetTile(pos).walkable_ = true;
+    }
+}
+
+void World::SetWall(Pos2D pos, bool place) {
+    if (place) {
+        GetTile(pos).symbol_.SetTileCode(ASCII::block_full);
+        GetTile(pos).symbol_.SetColor(sf::Color::White);
+        GetTile(pos).walkable_ = false;
+    }
+    else {
+        GetTile(pos).symbol_.SetTileCode(ASCII::get_random_ground());
+        GetTile(pos).symbol_.SetColor(sf::Color(20, 100, 20, 235));
+        GetTile(pos).symbol_.SetBGColor(sf::Color(0, 100, 0, 255));
+        GetTile(pos).defaultColor_ = sf::Color(0, 100, 0, 255);
+        GetTile(pos).usageColor_ = sf::Color(90, 60, 25, 130);
+        GetTile(pos).walkable_ = true;
+    }
+    pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
 }
 
 std::vector<Tile> World::GetAdjacents(Pos2D& pos) {
