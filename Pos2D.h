@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 struct Pos2D {
 	Pos2D(int a, int b): x(a), y(b) {}
 	Pos2D(){}
@@ -8,6 +10,7 @@ struct Pos2D {
 	Pos2D operator+(const Pos2D& b) { return Pos2D(x + b.x, y + b.y); }
 	inline bool operator!=(const Pos2D& b) { return x != b.x || y != b.y; }
 	Pos2D Adjacent(int px, int py) { return Pos2D(x + px, y + py); }
+
 	void MoveTowards(Pos2D target){
 		if (x > target.x)
 			x--;
@@ -19,3 +22,6 @@ struct Pos2D {
 			y++;
 	}
 };
+
+std::ostream& operator<<(std::ostream& os, const Pos2D pos);
+
