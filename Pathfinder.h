@@ -17,16 +17,13 @@ public:
 	sf::RenderWindow* window_;
 	Spritesheet* font_;
 	const void UpdateNavRec(World& world, Pos2D location);
-
 	const bool IsInNavRec(Pos2D location);
-
 	const nav_ptr FindNavRecFromPos(World& world, Pos2D location);
+	static const float SemiEuclidDistance(Pos2D& start, Pos2D& target);
 
 private:
 	float Heuristic(Pos2D start, Pos2D target);
 	std::shared_ptr<Path> ReversePathFromTarget(AStarNode target);
 	const float ManhattanDistance(Pos2D& start, Pos2D& target);
-	const float SemiEuclidDistance(Pos2D& start, Pos2D& target);
 	const float DiagonalMod(Pos2D& a, Pos2D& b);
-	void CheckForDoubles(World& world);
 };

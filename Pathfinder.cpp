@@ -12,6 +12,7 @@
 #include "ClosedList.h"
 #include <SFML/Graphics.hpp>
 #include "NavRecConnection.h"
+#include "NavRec.h"
 
 typedef std::shared_ptr<NavRec> nav_ptr;
 float sqr2 = 1.41421356237f;
@@ -87,24 +88,6 @@ const float Pathfinder::DiagonalMod(Pos2D& a, Pos2D& b)
 		return sqr2;
 }
 
-void Pathfinder::CheckForDoubles(World& world) {
-	int width = world.kTilesWidth;
-	int height = world.kTilesHeight;
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			int i = 0;
-			for (auto navrec : navrecs) {
-				if (navrec->contains(Pos2D(x,y))) {
-					++i;
-				}
-			}
-			if(i>1){
-				std::cout << "Multiple nav: " << i << " at: " << x << "/" << y << std::endl;
-			}
-		}
-	}
-}
-
 const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 	navrecs.clear();
 	std::cout << "========Initiating NavRecs========: " << std::endl;
@@ -125,13 +108,13 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 			}
 		}
 	std::cout << "Total navrecs: " << navrecs.size() << std::endl;
-	CheckForDoubles(world);
 	for (auto& navrec : navrecs) {
-			std::cout << "Checking " << navrec->start.x << "/" << navrec->start.y << std::endl;
 		for (auto& navrec_comp : navrecs) {
 			if (navrec != navrec_comp) {
-				std::cout << "With " << navrec_comp->start.x << "/" << navrec_comp->start.y << std::endl;
 				NavRecConnection connect = NavRecConnection(navrec, navrec_comp);
+				if (connect.heuristic > 0) {
+					//navrec->AddConnection(connect);
+				}
 			}
 		}
 	}
@@ -151,8 +134,6 @@ const bool Pathfinder::IsInNavRec(Pos2D location) {
 const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
 	int width = world.kTilesWidth;
 	int height = world.kTilesHeight;
-	std::cout << "Starting new search from Pos: " << location.x << "/" << location.y << std::endl;
-	std::cout << "Width: " << width << " Height: " << height <<std::endl;
 	for (int x = location.x; x < width; x++) {
 		if (!world.GetTile(x, location.y).walkable_ || IsInNavRec(Pos2D(x,location.y))) {
 			width = x;
@@ -171,7 +152,6 @@ const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
 	height -= location.y;
 	width -= location.x;
 	Pos2D size(width, height);
-	std::cout << "NavRec found: " << location.x << "/" << location.y << " Width/Height: " << width << "/" << height << std::endl;
 	nav_ptr nav(new NavRec(location, size));
 	return nav;
 }

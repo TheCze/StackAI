@@ -1,5 +1,5 @@
 #pragma once
-#include <iostream>
+#include <ostream>
 
 struct Pos2D {
 	Pos2D(int a, int b): x(a), y(b) {}
