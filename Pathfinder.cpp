@@ -11,6 +11,7 @@
 #include "ASCII.h"
 #include "ClosedList.h"
 #include <SFML/Graphics.hpp>
+#include "NavRecConnection.h"
 
 typedef std::shared_ptr<NavRec> nav_ptr;
 float sqr2 = 1.41421356237f;
@@ -116,17 +117,24 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 						auto navrec = FindNavRecFromPos(world, Pos2D(x,y));
 						if (navrec->IsValid()) {
 							navrecs.push_back(navrec);
-							//return;
 						}
 						else
-							std::cout << "Unvalid";
-//						location.x += navrec->size.x;
+							std::cout << "Invalid";
 					}
 				}
 			}
 		}
 	std::cout << "Total navrecs: " << navrecs.size() << std::endl;
 	CheckForDoubles(world);
+	for (auto& navrec : navrecs) {
+			std::cout << "Checking " << navrec->start.x << "/" << navrec->start.y << std::endl;
+		for (auto& navrec_comp : navrecs) {
+			if (navrec != navrec_comp) {
+				std::cout << "With " << navrec_comp->start.x << "/" << navrec_comp->start.y << std::endl;
+				NavRecConnection connect = NavRecConnection(navrec, navrec_comp);
+			}
+		}
+	}
 }
 
 
@@ -146,9 +154,7 @@ const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
 	std::cout << "Starting new search from Pos: " << location.x << "/" << location.y << std::endl;
 	std::cout << "Width: " << width << " Height: " << height <<std::endl;
 	for (int x = location.x; x < width; x++) {
-		std::cout << "Checking " << x << " for break ...";
 		if (!world.GetTile(x, location.y).walkable_ || IsInNavRec(Pos2D(x,location.y))) {
-			std::cout << "X break at: " << x;
 			width = x;
 			break;
 		}
@@ -157,7 +163,6 @@ const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
 	for (int y = location.y; y < height; y++) {
 		for (int x = location.x; x < width; x++) {
 			if (!world.GetTile(x, y).walkable_ || IsInNavRec(Pos2D(x, y))) {
-				std::cout << " Y break at: " << y << std::endl;
 				height = y;
 				break;
 			}
