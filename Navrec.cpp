@@ -1,6 +1,5 @@
 #pragma once
 #include "NavRec.h"
-
 #include <iostream>
 
 bool NavRec::contains(Pos2D pos)
