@@ -5,3 +5,6 @@ Debug/CodeAnalysisResultManifest.txt
 Debug
 Release
 cpplint.py
+StackAI.vcxproj
+StackAI.vcxproj.filters
+assets/terminal24 - Kopie.png
