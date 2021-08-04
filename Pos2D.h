@@ -23,5 +23,5 @@ struct Pos2D {
 	}
 };
 
-std::ostream& operator<<(std::ostream& os, const Pos2D pos);
+const std::ostream& operator<<(std::ostream& os, const Pos2D& pos);
 
