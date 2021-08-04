@@ -18,6 +18,8 @@ void World::InitWorld() {
     }
   }
   //PlaceRandomStones();
+  ToggleWalkable(Pos2D(10, 10));
+  ToggleWalkable(Pos2D(10, 15));
   pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
 }
 

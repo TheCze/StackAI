@@ -27,18 +27,10 @@ Texture* loadTexture(std::string path) {
     }
 }
 
+
 int main()
 {
     Spritesheet font = Spritesheet(loadTexture("assets/terminal24.png"));
-    actors.push_back(Actor(Pos2D(10,10)));
-    actors.push_back(Actor(Pos2D(20, 10)));
-    actors.push_back(Actor(Pos2D(30, 10)));
-    actors.push_back(Actor(Pos2D(40, 10)));
-    actors.push_back(Actor(Pos2D(50, 10)));
-    actors.push_back(Actor(Pos2D(15, 20)));
-    actors.push_back(Actor(Pos2D(25, 25)));
-    actors.push_back(Actor(Pos2D(35, 10)));
-    actors.push_back(Actor(Pos2D(45, 10)));
     actors.push_back(Actor(Pos2D(55, 10))); 
     sf::RenderWindow window(sf::VideoMode(settings::SCREEN_WIDTH, settings::SCREEN_HEIGTH), "Space");
     World world;
@@ -78,22 +70,29 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
     }
 
     for (auto navrec : world.pathfinder_.navrecs) {
-        ASCIISymbol box = ASCIISymbol(ASCII::filled, navrec->color);
+        sf::Color c = sf::Color::Blue;
+        if (navrec->current_heuristic == -1) {
+            c = sf::Color::Red;
+            auto neighbors = navrec->neighbors;
+        }
+        else
+            c.a = navrec->current_heuristic;
+       ASCIISymbol box = ASCIISymbol(ASCII::filled, c);
         box.Draw(window, font, navrec->start, navrec->size);
     }
 
     for (auto& actor : actors) {
-        /*if (actor.m_path) {
+        if (actor.path_) {
             ASCIISymbol p = ASCIISymbol(ASCII::hash, Color(50, 20, 150, 250));
-            auto node = actor.m_path->first;
+            auto node = actor.path_->first;
             node = node->next;
             while (node) {
-                if (node->isLast())
-                    p.setColor(Color::Red);
-                p.draw(window, font, (float)node->pos.x, (float)node->pos.y);
+                if (node->IsLast())
+                    p.SetColor(Color::Red);
+                p.Draw(window, font, (float)node->pos.x, (float)node->pos.y);
                 node = node->next;
             }
-        }*/
+        }
         actor.Draw(window, font);
     }
     window.display();
