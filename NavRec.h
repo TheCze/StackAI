@@ -16,6 +16,7 @@ struct NavRec {
 	bool contains(Pos2D pos);
 	void AddConnection(NavRecConnection& neighbor);
 	void RemoveConnection(NavRecConnection& neighbor);
-private:
+	void DepthSearchConnections(float connectioncost);
 	std::vector<NavRecConnection> neighbors;
+private:
 };

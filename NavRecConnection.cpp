@@ -7,9 +7,7 @@ void NavRecConnection::checkNeighbor()
 {
 	int overlap = OverLaps(from->start, from->size, to->start, to->size);
 	if (overlap != -1) {
-		heuristic = GetEstimatedCost(from, to);
-		std::cout << "Connection of NavRec at " << from->start << " to : " << to->start;
-		std::cout << " Direction: " << overlap << " Cost: " << heuristic << std::endl;
+		distance = GetEstimatedCost(from, to);
 	}
 }
 
@@ -24,8 +22,12 @@ const int NavRecConnection::OverLaps(Pos2D& a_start, Pos2D& a_size, Pos2D& b_sta
 	Pos2D b_bl = Pos2D(b_start.x, b_start.y + b_size.y);
 	Pos2D b_br = Pos2D(b_start.x + b_size.x, b_start.y + b_size.y);
 	//Check for literal edge cases
-	if (a_tl == b_br || a_tr == b_bl || a_br == b_tl || a_bl == b_tr)
-		return -1;
+	if (a_tl == b_br || a_tr == b_bl || a_br == b_tl || a_bl == b_tr) {
+		std::cout << a_start.x;
+		std::cout << b_start.x;
+		std::cout << std::endl;
+		return -1;		
+	}
 	if (IsOnLine(a_tl, b_tr, b_br))
 		return 3;
 	if (IsOnLine(a_tl, b_bl, b_br))

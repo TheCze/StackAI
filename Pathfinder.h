@@ -22,6 +22,8 @@ public:
 	static const float SemiEuclidDistance(Pos2D& start, Pos2D& target);
 
 private:
+	nav_ptr GetNavRecAtPos(Pos2D target);
+	void ClearNavRecHeuristic();
 	float Heuristic(Pos2D start, Pos2D target);
 	std::shared_ptr<Path> ReversePathFromTarget(AStarNode target);
 	const float ManhattanDistance(Pos2D& start, Pos2D& target);

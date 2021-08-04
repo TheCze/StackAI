@@ -6,7 +6,7 @@ typedef std::shared_ptr<NavRec> nav_ptr;
 
 
 struct NavRecConnection {
-	float heuristic=-1; //ALWAYS -1 UNTIL A VALID CONNECTION HAS BEEN FOUND
+	float distance=-1; //ALWAYS -1 UNTIL A VALID CONNECTION HAS BEEN FOUND
 	nav_ptr from;
 	nav_ptr to;
 	NavRecConnection(nav_ptr a, nav_ptr b) : from(a), to(b) { checkNeighbor(); }

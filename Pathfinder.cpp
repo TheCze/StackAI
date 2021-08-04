@@ -18,6 +18,11 @@ typedef std::shared_ptr<NavRec> nav_ptr;
 float sqr2 = 1.41421356237f;
 std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D target)
 {
+	ClearNavRecHeuristic();
+	nav_ptr target_nav_rec = GetNavRecAtPos(target);
+	if (!target_nav_rec)
+		return nullptr;
+	target_nav_rec->DepthSearchConnections(0);
 	if (!IsReachable(world, start, target)) {
 		return nullptr;
 	}
@@ -43,12 +48,32 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	return nullptr;
 }
 
-bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {	
+bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
+	if (GetNavRecAtPos(start)->current_heuristic == -1)
+		return false;
 	return world.GetTile(target).walkable_;
 }
 
+nav_ptr Pathfinder::GetNavRecAtPos(Pos2D position)
+{
+	for (auto navrec : navrecs) {
+		if (navrec->contains(position)) {
+			return navrec;
+		}
+	}
+}
+
+void Pathfinder::ClearNavRecHeuristic()
+{
+	for (auto navrec : navrecs) {
+		navrec->current_heuristic = -1;
+	}
+}
+
 float Pathfinder::Heuristic(Pos2D start, Pos2D target) {
-	return SemiEuclidDistance(start,target);
+	float euclid_heu = SemiEuclidDistance(start,target);
+	float nav_heu = GetNavRecAtPos(start)->current_heuristic;
+	return (euclid_heu + nav_heu) * 0.5f;
 }
 
 std::shared_ptr<Path> Pathfinder::ReversePathFromTarget(AStarNode target)
@@ -90,7 +115,6 @@ const float Pathfinder::DiagonalMod(Pos2D& a, Pos2D& b)
 
 const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 	navrecs.clear();
-	std::cout << "========Initiating NavRecs========: " << std::endl;
 	int width = world.kTilesWidth - location.x;
 	int height = world.kTilesHeight - location.y;
 		for (int y = location.y; y < height; y++) {
@@ -107,13 +131,12 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 				}
 			}
 		}
-	std::cout << "Total navrecs: " << navrecs.size() << std::endl;
 	for (auto& navrec : navrecs) {
 		for (auto& navrec_comp : navrecs) {
 			if (navrec != navrec_comp) {
 				NavRecConnection connect = NavRecConnection(navrec, navrec_comp);
-				if (connect.heuristic > 0) {
-					//navrec->AddConnection(connect);
+				if (connect.distance > 0) {
+					navrec->AddConnection(connect);
 				}
 			}
 		}
@@ -140,7 +163,6 @@ const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
 			break;
 		}
 	}
-	std::cout << std::endl;
 	for (int y = location.y; y < height; y++) {
 		for (int x = location.x; x < width; x++) {
 			if (!world.GetTile(x, y).walkable_ || IsInNavRec(Pos2D(x, y))) {

@@ -19,3 +19,13 @@ void NavRec::RemoveConnection(NavRecConnection& neighbor)
 {
 	std::cout << "!!ERROR REMOVING CONNECTION NOT IMPLEMENTED YET!!" << std::endl;
 }
+
+void NavRec::DepthSearchConnections(float connectioncost)
+{
+	if (current_heuristic > connectioncost ||current_heuristic == -1) {
+		current_heuristic = connectioncost;
+		for (auto navrec : neighbors) {
+			navrec.to->DepthSearchConnections(current_heuristic + navrec.distance);
+		}
+	}
+}
