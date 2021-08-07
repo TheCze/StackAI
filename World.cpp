@@ -18,9 +18,23 @@ void World::InitWorld() {
     }
   }
   //PlaceRandomStones();
-  ToggleWalkable(Pos2D(10, 10));
-  ToggleWalkable(Pos2D(10, 15));
+  GenerateMaze();
   pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
+}
+
+void World::GenerateMaze() {
+    //DrawLine(Pos2D(10, 10), Pos2D(40, 10));
+    //DrawLine(Pos2D(10, 10), Pos2D(10, 20));
+    DrawLine(Pos2D(20, 20), Pos2D(40, 40));
+    DrawLine(Pos2D(20, 20), Pos2D(20, 40));
+}
+
+void World::DrawLine(Pos2D a, Pos2D b) {
+    while (a != b) {
+        if(IsValid(a.x,a.y))
+            SetWall(a,true);
+        a.MoveTowards(b);
+    }
 }
 
 void World::PlaceRandomStones() {
@@ -68,17 +82,10 @@ std::shared_ptr<Path> World::GetPath(Pos2D& start, Pos2D& target) {
 
 void World::ToggleWalkable(Pos2D pos) {
     if (GetTile(pos).walkable_) {
-        GetTile(pos).symbol_.SetTileCode(ASCII::block_full);
-        GetTile(pos).symbol_.SetColor(sf::Color::White);
-        GetTile(pos).walkable_ = false;
+        SetWall(pos, true);
     }
     else {
-        GetTile(pos).symbol_.SetTileCode(ASCII::get_random_ground());
-        GetTile(pos).symbol_.SetColor(sf::Color(20, 100, 20, 235));
-        GetTile(pos).symbol_.SetBGColor(sf::Color(0, 100, 0, 255));
-        GetTile(pos).defaultColor_ = sf::Color(0, 100, 0, 255);
-        GetTile(pos).usageColor_ = sf::Color(90, 60, 25, 130);
-        GetTile(pos).walkable_ = true;
+        SetWall(pos, false);
     }
 }
 

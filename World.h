@@ -31,4 +31,6 @@ class World {
   int XY(int& x, int& y);
   float kRenaturalizationPercentage = 0.001f;
   float renaturalization_time_ = 1.0f;
+  void GenerateMaze();
+  void DrawLine(Pos2D a, Pos2D b);
 };

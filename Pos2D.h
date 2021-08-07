@@ -3,6 +3,7 @@
 
 struct Pos2D {
 	Pos2D(int a, int b): x(a), y(b) {}
+	//Pos2D(const Pos2D& cpy) : x(cpy.x), y(cpy.y) {}
 	Pos2D(){}
 	int x = 0;
 	int y = 0;
@@ -23,5 +24,5 @@ struct Pos2D {
 	}
 };
 
-const std::ostream& operator<<(std::ostream& os, const Pos2D& pos);
+std::ostream& operator<<(std::ostream& os, const Pos2D& pos);
 

@@ -131,12 +131,14 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 				}
 			}
 		}
+	std::cout << "Connecting " << navrecs.size() << " navrecs" << std::endl;
 	for (auto& navrec : navrecs) {
 		for (auto& navrec_comp : navrecs) {
 			if (navrec != navrec_comp) {
 				NavRecConnection connect = NavRecConnection(navrec, navrec_comp);
 				if (connect.distance > 0) {
 					navrec->AddConnection(connect);
+					std::cout << "Found connection: " << connect.from->start << " to " << connect.to->start << std::endl;
 				}
 			}
 		}
