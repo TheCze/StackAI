@@ -23,18 +23,25 @@ void World::InitWorld() {
 }
 
 void World::GenerateMaze() {
-    //DrawLine(Pos2D(10, 10), Pos2D(40, 10));
-    //DrawLine(Pos2D(10, 10), Pos2D(10, 20));
+    DrawLine(Pos2D(10, 10), Pos2D(40, 10));
+    DrawLine(Pos2D(10, 10), Pos2D(10, 20));
     DrawLine(Pos2D(20, 20), Pos2D(40, 40));
     DrawLine(Pos2D(20, 20), Pos2D(20, 40));
+    DrawLine(Pos2D(1, 0), Pos2D(1, 10));
+    DrawLine(Pos2D(30, 0), Pos2D(30, 8));
+    DrawLine(Pos2D(35, 0), Pos2D(35, 9));
+    DrawLine(Pos2D(30, 9), Pos2D(35, 8));
+    DrawLine(Pos2D(32, 8), Pos2D(33, 7));
+    DrawLine(Pos2D(10, 38), Pos2D(15, 38));
+    DrawLine(Pos2D(5, 0), Pos2D(5, 9));
 }
 
 void World::DrawLine(Pos2D a, Pos2D b) {
-    while (a != b) {
+    do{
         if(IsValid(a.x,a.y))
             SetWall(a,true);
         a.MoveTowards(b);
-    }
+    } while (a != b);
 }
 
 void World::PlaceRandomStones() {
@@ -87,6 +94,7 @@ void World::ToggleWalkable(Pos2D pos) {
     else {
         SetWall(pos, false);
     }
+    pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
 }
 
 void World::SetWall(Pos2D pos, bool place) {
@@ -103,7 +111,7 @@ void World::SetWall(Pos2D pos, bool place) {
         GetTile(pos).usageColor_ = sf::Color(90, 60, 25, 130);
         GetTile(pos).walkable_ = true;
     }
-    pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
+ 
 }
 
 std::vector<Tile> World::GetAdjacents(Pos2D& pos) {
