@@ -49,9 +49,13 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 }
 
 bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
+	if (!world.IsValid(start) || !world.IsValid(target))
+		return false;
+	if (world.GetTile(target).walkable_ == false)
+		return false;
 	if (GetNavRecAtPos(start)->current_heuristic == -1)
 		return false;
-	return world.GetTile(target).walkable_;
+	return true;
 }
 
 nav_ptr Pathfinder::GetNavRecAtPos(Pos2D position)
@@ -61,6 +65,7 @@ nav_ptr Pathfinder::GetNavRecAtPos(Pos2D position)
 			return navrec;
 		}
 	}
+	return nullptr;
 }
 
 void Pathfinder::ClearNavRecHeuristic()
@@ -121,7 +126,7 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 			for (int x = location.x; x < width; x++) {
 				if (world.GetTile(x, y).walkable_) {
 					if (!IsInNavRec(Pos2D(x, y))) {						
-						auto navrec = FindNavRecFromPos(world, Pos2D(x,y));
+						auto navrec = CreateNavRecFromPos(world, Pos2D(x,y));
 						if (navrec->IsValid()) {
 							navrecs.push_back(navrec);
 						}
@@ -131,21 +136,59 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 				}
 			}
 		}
-	std::cout << "Connecting " << navrecs.size() << " navrecs" << std::endl;
-	for (auto& navrec : navrecs) {
-		for (auto& navrec_comp : navrecs) {
-			if (navrec != navrec_comp) {
-				NavRecConnection connect = NavRecConnection(navrec, navrec_comp);
-				if (connect.distance > 0) {
-					navrec->AddConnection(connect);
-					std::cout << "Found connection: " << connect.from->start << " to " << connect.to->start << std::endl;
-				}
-			}
-		}
-	}
+		UpdateNavRecConnections(world);
 }
 
 
+//Search adjacent to each navrec in all four directions for other Navrecs
+void Pathfinder::UpdateNavRecConnections(World& world)
+{
+	for (auto& navrec : navrecs) {
+		std::cout << "Looking for neighbors of " << navrec->start << std::endl;
+		Pos2D start = navrec->GetCornerTopLeft();
+		Pos2D target = navrec->GetCornerTopRight();
+		start.y -= 1;
+		target.y -= 1;
+		if (world.IsValid(start) && world.IsValid(target))
+			FindNavRecsOnLine(navrec, start, target);
+		start = navrec->GetCornerTopLeft();
+		target = navrec->GetCornerBottomLeft();
+		start.x -= 1;
+		target.x -= 1;
+		if (world.IsValid(start) && world.IsValid(target))
+			FindNavRecsOnLine(navrec, start, target);
+		start = navrec->GetCornerTopRight();
+		target = navrec->GetCornerBottomRight();
+		start.x += 1;
+		target.x += 1;
+		if (world.IsValid(start) && world.IsValid(target))
+			FindNavRecsOnLine(navrec, start, target);
+		start = navrec->GetCornerBottomLeft();
+		target = navrec->GetCornerBottomRight();
+		start.y += 1;
+		target.y += 1;
+		if (world.IsValid(start) && world.IsValid(target))
+			FindNavRecsOnLine(navrec, start, target);
+	}
+}
+
+//Search for a navrec between two Pos2Ds and add a connection to a given navrec
+void Pathfinder::FindNavRecsOnLine(nav_ptr navrec, Pos2D start, Pos2D target) {
+	while (start != target) {
+		AddNavConnectionAtPos(start, navrec);
+		start.MoveTowards(target);
+	}
+	AddNavConnectionAtPos(target, navrec);
+}
+
+void Pathfinder::AddNavConnectionAtPos(const Pos2D& start, nav_ptr& navrec)
+{
+	nav_ptr neighbor = GetNavRecAtPos(start);
+	if (neighbor != nullptr) {
+		std::shared_ptr<NavRecConnection> conn(new NavRecConnection(navrec, neighbor));
+		navrec->AddConnection(conn);
+	}
+}
 
 const bool Pathfinder::IsInNavRec(Pos2D location) {
 	for (auto navrec : navrecs) {
@@ -156,7 +199,7 @@ const bool Pathfinder::IsInNavRec(Pos2D location) {
 	return false;
 }
 
-const nav_ptr Pathfinder::FindNavRecFromPos(World& world, Pos2D location) {
+const nav_ptr Pathfinder::CreateNavRecFromPos(World& world, Pos2D location) {
 	int width = world.kTilesWidth;
 	int height = world.kTilesHeight;
 	for (int x = location.x; x < width; x++) {
