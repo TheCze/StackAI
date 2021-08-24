@@ -26,6 +26,7 @@ void World::GenerateMaze() {
     DrawLine(Pos2D(10, 10), Pos2D(40, 10));
     DrawLine(Pos2D(10, 10), Pos2D(10, 20));
     DrawLine(Pos2D(20, 20), Pos2D(40, 40));
+    DrawLine(Pos2D(25, 25), Pos2D(28, 29));
     DrawLine(Pos2D(20, 20), Pos2D(20, 40));
     DrawLine(Pos2D(1, 0), Pos2D(1, 10));
     DrawLine(Pos2D(30, 0), Pos2D(30, 8));
@@ -34,6 +35,27 @@ void World::GenerateMaze() {
     DrawLine(Pos2D(32, 8), Pos2D(33, 7));
     DrawLine(Pos2D(10, 38), Pos2D(15, 38));
     DrawLine(Pos2D(5, 0), Pos2D(5, 9));
+    DrawLine(Pos2D(15, 0), Pos2D(5, 9));
+    DrawLine(Pos2D(42, 0), Pos2D(35, 19));
+    DrawLine(Pos2D(23, 23), Pos2D(15, 19));
+}
+
+void World::GeneratePathfindingBenchmark() {
+    DrawLine(Pos2D(10, 10), Pos2D(40, 10));
+    DrawLine(Pos2D(10, 10), Pos2D(10, 20));
+    DrawLine(Pos2D(20, 20), Pos2D(40, 40));
+    DrawLine(Pos2D(25, 25), Pos2D(28, 29));
+    DrawLine(Pos2D(20, 20), Pos2D(20, 40));
+    DrawLine(Pos2D(1, 0), Pos2D(1, 10));
+    DrawLine(Pos2D(30, 0), Pos2D(30, 8));
+    DrawLine(Pos2D(35, 0), Pos2D(35, 9));
+    DrawLine(Pos2D(30, 9), Pos2D(35, 8));
+    DrawLine(Pos2D(32, 8), Pos2D(33, 7));
+    DrawLine(Pos2D(10, 38), Pos2D(15, 38));
+    DrawLine(Pos2D(5, 0), Pos2D(5, 9));
+    DrawLine(Pos2D(15, 0), Pos2D(5, 9));
+    DrawLine(Pos2D(42, 0), Pos2D(35, 19));
+    DrawLine(Pos2D(23, 23), Pos2D(15, 19));
 }
 
 void World::DrawLine(Pos2D a, Pos2D b) {

@@ -24,6 +24,7 @@ class World {
   void Update(float delta);
   void ToggleWalkable(Pos2D pos);
   void SetWall(Pos2D pos, bool place);
+  void GeneratePathfindingBenchmark();
  private:
   void InitWorld();
   void PlaceRandomStones();
