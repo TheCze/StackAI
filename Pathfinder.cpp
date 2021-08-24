@@ -18,11 +18,14 @@ typedef std::shared_ptr<NavRec> nav_ptr;
 float sqr2 = 1.41421356237f;
 std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D target)
 {
-	ClearNavRecHeuristic();
 	nav_ptr target_nav_rec = GetNavRecAtPos(target);
+	nav_ptr current_nav_rec = GetNavRecAtPos(start);
 	if (!target_nav_rec)
 		return nullptr;
-	target_nav_rec->DepthSearchConnections(0);
+	if (!HasThisNavRecBeenCalculated(target_nav_rec->start.hash())) {
+		target_nav_rec->DepthSearchConnections(0, target_nav_rec->start.hash());
+		searched_navrecs.insert(target_nav_rec->start.hash());
+	}
 	if (!IsReachable(world, start, target)) {
 		return nullptr;
 	}
@@ -30,16 +33,17 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	ClosedList closedlist;
 	anode_ptr start_node(new AStarNode(world.GetTile(start)));
 	openlist.AddOrUpdate(*start_node);
-	while (!openlist.empty()) {
+	while (!openlist.empty()) {		
 		AStarNode current_node = openlist.PopLowestCost();
+		current_nav_rec = UpdateNavRecIfChanged(current_nav_rec, current_node.tile.pos_);
 		if (current_node.tile.pos_ == target) {
 			return ReversePathFromTarget(current_node);
 		}
 		auto adjacents = world.GetAdjacents(current_node.tile.pos_);
 		anode_ptr cur(new AStarNode(current_node));
-		for (Tile& t : adjacents) {
+		for (auto& t : adjacents) {
 			float pathcost = current_node.pathcost + t.GetTileCost() * DiagonalMod(current_node.tile.pos_, t.pos_);
-			AStarNode next = AStarNode(pathcost + Heuristic(t.pos_, target), pathcost, cur, t);
+			AStarNode next = AStarNode(pathcost + Heuristic(t.pos_, target, current_nav_rec, target_nav_rec), pathcost, cur, t);
 			if(!closedlist.contains(next))
 				openlist.AddOrUpdate(next);
 		}
@@ -48,12 +52,24 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	return nullptr;
 }
 
+bool Pathfinder::HasThisNavRecBeenCalculated(int target) {
+	return searched_navrecs.find(target) != searched_navrecs.end();
+}
+
+nav_ptr Pathfinder::UpdateNavRecIfChanged(nav_ptr& navrec, Pos2D position) {
+	if (navrec->contains(position))
+		return navrec;
+	else
+		return GetNavRecAtPos(position);
+
+}
+
 bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
 	if (!world.IsValid(start) || !world.IsValid(target))
 		return false;
 	if (world.GetTile(start).walkable_ == false || world.GetTile(target).walkable_ == false)
 		return false;
-	if (GetNavRecAtPos(start)->current_heuristic == -1)
+	if (GetNavRecAtPos(start)->GetHeuristicTo(GetNavRecAtPos(target)->start.hash()) == -1)
 		return false;
 	return true;
 }
@@ -71,13 +87,15 @@ nav_ptr Pathfinder::GetNavRecAtPos(Pos2D position)
 void Pathfinder::ClearNavRecHeuristic()
 {
 	for (auto navrec : navrecs) {
-		navrec->current_heuristic = -1;
+		navrec->ClearHeuristics();
 	}
+	searched_navrecs.clear();
 }
 
-float Pathfinder::Heuristic(Pos2D start, Pos2D target) {
+float Pathfinder::Heuristic(Pos2D start, Pos2D target, nav_ptr currentNav, nav_ptr targetNav) {
 	float euclid_heu = SemiEuclidDistance(start,target);
-	float nav_heu = GetNavRecAtPos(start)->current_heuristic;
+	return euclid_heu;
+	float nav_heu = UpdateNavRecIfChanged(currentNav, start)->GetHeuristicTo(target.hash());
 	return (euclid_heu + nav_heu) * 0.5f;
 }
 
