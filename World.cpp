@@ -132,51 +132,47 @@ void World::SetWall(Pos2D pos, bool place) {
         GetTile(pos).defaultColor_ = sf::Color(0, 100, 0, 255);
         GetTile(pos).usageColor_ = sf::Color(90, 60, 25, 130);
         GetTile(pos).walkable_ = true;
-    }
- 
+    } 
 }
 
 std::vector<Tile> World::GetAdjacents(Pos2D& pos) {
     std::vector<Tile> adjacents;
+    adjacents.reserve(8);
     Pos2D up = pos.Adjacent(0, -1);
     Pos2D down = pos.Adjacent(0, 1);
     Pos2D left = pos.Adjacent(-1, 0);
     Pos2D right = pos.Adjacent(1, 0);
-    if (IsValid(up) && GetTile(up).walkable_)
-        adjacents.push_back(GetTile(up));
-    if (IsValid(down) && GetTile(down).walkable_)
-        adjacents.push_back(GetTile(down));
-    if (IsValid(left) && GetTile(left).walkable_)
-        adjacents.push_back(GetTile(left));
-    if (IsValid(right) && GetTile(right).walkable_)
-        adjacents.push_back(GetTile(right));
+    TryAddingAdjacent(adjacents, up);
+    TryAddingAdjacent(adjacents, down);
+    TryAddingAdjacent(adjacents, left);
+    TryAddingAdjacent(adjacents, right);
+
 
     Pos2D upleft = pos.Adjacent(-1, -1);
     Pos2D upright = pos.Adjacent(1, -1);
     Pos2D downleft = pos.Adjacent(-1, 1);
     Pos2D downright = pos.Adjacent(1, 1);
-    if (IsValid(up) && GetTile(up).walkable_)
-        if (IsValid(left) && GetTile(left).walkable_)
-            if (IsValid(upleft) && GetTile(upleft).walkable_)
-                adjacents.push_back(GetTile(upleft));
+    if (CanBeEntered(up) && CanBeEntered(left))
+            TryAddingAdjacent(adjacents, upleft);
 
-    if (IsValid(up) && GetTile(up).walkable_)
-        if (IsValid(right) && GetTile(right).walkable_)
-            if (IsValid(upright) && GetTile(upright).walkable_)
-                adjacents.push_back(GetTile(upright));
+    if (CanBeEntered(up) && CanBeEntered(right))
+            TryAddingAdjacent(adjacents, upright);
 
-    if (IsValid(down) && GetTile(down).walkable_)
-        if (IsValid(right) && GetTile(right).walkable_)
-            if (IsValid(downright) && GetTile(downright).walkable_)
-                adjacents.push_back(GetTile(downright));
+    if (CanBeEntered(down) && CanBeEntered(right))
+            TryAddingAdjacent(adjacents, downright);
 
-    if (IsValid(down) && GetTile(down).walkable_)
-        if (IsValid(left) && GetTile(left).walkable_)
-            if (IsValid(downleft) && GetTile(downleft).walkable_)
-                adjacents.push_back(GetTile(downleft));
- 
-
+    if (CanBeEntered(down) && CanBeEntered(left))
+            TryAddingAdjacent(adjacents, downleft);
     return adjacents;
+}
+
+void World::TryAddingAdjacent(std::vector<Tile>& adjacents, Pos2D& pos) {
+    if (CanBeEntered(pos))
+        adjacents.push_back(GetTile(pos));
+}
+
+bool World::CanBeEntered(const Pos2D& pos) {
+    return IsValid(pos) && GetTile(pos).walkable_;
 }
 
 int World::XY(int& x, int& y) {

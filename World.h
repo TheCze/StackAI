@@ -27,6 +27,7 @@ class World {
   void GeneratePathfindingBenchmark();
  private:
   void InitWorld();
+  void TryAddingAdjacent(std::vector<Tile>& adjacents, Pos2D& pos);
   void PlaceRandomStones();
   void Renaturalize(float delta);
   int XY(int& x, int& y);
@@ -34,4 +35,5 @@ class World {
   float renaturalization_time_ = 1.0f;
   void GenerateMaze();
   void DrawLine(Pos2D a, Pos2D b);
+  bool CanBeEntered(const Pos2D& pos);
 };
