@@ -22,10 +22,7 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	nav_ptr current_nav_rec = GetNavRecAtPos(start);
 	if (!target_nav_rec)
 		return nullptr;
-	if (!HasThisNavRecBeenCalculated(target_nav_rec->start.hash())) {
-		target_nav_rec->DepthSearchConnections(0, target_nav_rec->start.hash());
-		searched_navrecs.insert(target_nav_rec->start.hash());
-	}
+	CheckNavRecHeuristics(target_nav_rec);
 	if (!IsReachable(world, start, target)) {
 		return nullptr;
 	}
@@ -35,6 +32,8 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 	openlist.AddOrUpdate(*start_node);
 	while (!openlist.empty()) {		
 		AStarNode current_node = openlist.PopLowestCost();
+		if (closedlist.contains(current_node))
+			continue;
 		current_nav_rec = UpdateNavRecIfChanged(current_nav_rec, current_node.tile.pos_);
 		if (current_node.tile.pos_ == target) {
 			return ReversePathFromTarget(current_node);
@@ -50,6 +49,14 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 		closedlist.add(current_node);	
 	}	
 	return nullptr;
+}
+
+void Pathfinder::CheckNavRecHeuristics(nav_ptr& target_nav_rec)
+{
+	if (!HasThisNavRecBeenCalculated(target_nav_rec->start.hash())) {
+		target_nav_rec->DepthSearchConnections(0, target_nav_rec->start.hash());
+		searched_navrecs.insert(target_nav_rec->start.hash());
+	}
 }
 
 bool Pathfinder::HasThisNavRecBeenCalculated(int target) {

@@ -12,6 +12,7 @@ typedef std::shared_ptr<NavRec> nav_ptr;
 class Pathfinder {
 public:
 	std::shared_ptr<Path> GetPath(World& world, Pos2D start, Pos2D target);
+	void CheckNavRecHeuristics(nav_ptr& target_nav_rec);
 	bool HasThisNavRecBeenCalculated(int target);
 	std::vector<nav_ptr> navrecs;
 	bool IsReachable(World& world, Pos2D start, Pos2D target);

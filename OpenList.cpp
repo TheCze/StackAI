@@ -3,24 +3,14 @@
 
 void OpenList::AddOrUpdate(AStarNode new_node)
 {
-	for (AStarNode& node : list) {
-		if (node.tile.pos_ == new_node.tile.pos_) {
-			if (node.pathcost > new_node.pathcost) {
-				node.pathcost = new_node.pathcost;
-				return;
-			}
-			return;
-		}
-	}
-	list.push_back(new_node);
+	heap.push(new_node);
 }
 
 AStarNode OpenList::PopLowestCost()
 {
-	auto low_point = std::max_element(list.begin(),list.end());
-	AStarNode lowest = *low_point;
-	list.erase(low_point);
-	return lowest;
+	auto min =  heap.top();
+	heap.pop();
+	return min;
 }
 
 void OpenList::DebugPrint()
