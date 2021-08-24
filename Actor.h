@@ -17,7 +17,7 @@ public:
 	void SetTarget(Pos2D pos) { target_ = pos; path_.reset(); }
 	std::shared_ptr<Path> path_;
 private:
-	float movespeed_ = 35;
+	float movespeed_ = 75;
 	float movetimer_ = 1 / movespeed_;
 	void Move(World& world);
 	bool ShouldMove(float delta);
