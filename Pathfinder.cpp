@@ -51,7 +51,7 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 bool Pathfinder::IsReachable(World& world, Pos2D start, Pos2D target) {
 	if (!world.IsValid(start) || !world.IsValid(target))
 		return false;
-	if (world.GetTile(target).walkable_ == false)
+	if (world.GetTile(start).walkable_ == false || world.GetTile(target).walkable_ == false)
 		return false;
 	if (GetNavRecAtPos(start)->current_heuristic == -1)
 		return false;
@@ -144,7 +144,6 @@ const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
 void Pathfinder::UpdateNavRecConnections(World& world)
 {
 	for (auto& navrec : navrecs) {
-		std::cout << "Looking for neighbors of " << navrec->start << std::endl;
 		Pos2D start = navrec->GetCornerTopLeft();
 		Pos2D target = navrec->GetCornerTopRight();
 		start.y -= 1;
