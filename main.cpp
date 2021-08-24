@@ -35,7 +35,6 @@ int main()
     World world;
     world.pathfinder_.window_ = &window;
     world.pathfinder_.font_ = &font;
-
     RunPathfindingBenchmark(world);
     RunGame(window, world, font);
     return 0;
@@ -114,19 +113,7 @@ void render(sf::RenderWindow& window, World& world, Spritesheet& font)
     for (int x = 0; x < settings::WORLD_WIDTH; x++) {
         for (int y = 0; y < settings::WORLD_HEIGHT; y++) {
            world.GetTile(x, y).symbol_.Draw(window,font,x,y);
-        }
-    }
-
-    for (auto navrec : world.pathfinder_.navrecs) {
-        sf::Color c = sf::Color::Blue;
-        if (navrec->current_heuristic == -1) {
-            c = sf::Color::Red;
-            auto neighbors = navrec->neighbors;
-        }
-        else
-            c.a = navrec->current_heuristic;
-       ASCIISymbol box = ASCIISymbol(ASCII::filled, c);
-        box.Draw(window, font, navrec->start, navrec->size);
+        }    
     }
 
     for (auto& actor : actors) {
