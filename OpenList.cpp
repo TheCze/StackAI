@@ -17,23 +17,10 @@ void OpenList::AddOrUpdate(AStarNode new_node)
 
 AStarNode OpenList::PopLowestCost()
 {
-	//print();
 	auto low_point = std::max_element(list.begin(),list.end());
 	AStarNode lowest = *low_point;
-	//std::cout << "Lowest was: " << lowest.estCost << std::endl;
 	list.erase(low_point);
-	//print();
 	return lowest;
-
-	//auto  lowest = *low_point;
-	//list.erase(list.begin() + low_point);
-	//print();
-	//return lowest;
-
-	//std::sort(list.begin(), list.end(), std::greater<AStarNode>());
-	//AStarNode lowest = list.at(0);
-	//list.erase(list.begin());
-	//return lowest;
 }
 
 void OpenList::DebugPrint()

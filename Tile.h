@@ -10,16 +10,15 @@ public:
 	Tile(ASCIISymbol symbol, Pos2D pos) : symbol_(symbol), pos_(pos) {}
 	bool walkable_ = true;
 	Pos2D pos_ = Pos2D();
-	void WalkOn();
-	void Renaturalize();
-	void UpdateColors();
-	void SetDefaultTileCost(float cost) { tile_cost_ = cost; }
 	sf::Color defaultColor_;
 	sf::Color usageColor_;
 	float tilecost_usage_mod = 0.5f;
 	float GetTileCost();
+	void WalkOn();
+	void Renaturalize();
+	void UpdateColors();
+	void SetDefaultTileCost(float cost) { tile_cost_ = cost; }
 private:
 	float usage_ = 0.0f;
 	float tile_cost_ = 1;
-
 };
