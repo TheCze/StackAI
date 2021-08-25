@@ -42,12 +42,13 @@ std::shared_ptr<Path> Pathfinder::GetPath(World& world, Pos2D start, Pos2D targe
 		anode_ptr cur(new AStarNode(current_node));
 		for (auto& t : adjacents) {
 			float pathcost = current_node.pathcost + t.GetTileCost() * DiagonalMod(current_node.tile.pos_, t.pos_);
-			AStarNode next = AStarNode(pathcost + Heuristic(t.pos_, target, current_nav_rec, target_nav_rec), pathcost, cur, t);
+			float heuristic = Heuristic(t.pos_, target, current_nav_rec, target_nav_rec);
+			AStarNode next = AStarNode(pathcost + heuristic, pathcost, cur, t);
 			if(!closedlist.contains(next))
 				openlist.AddOrUpdate(next);
 		}
-		closedlist.add(current_node);	
-	}	
+		closedlist.add(current_node);
+	}
 	return nullptr;
 }
 
@@ -93,9 +94,7 @@ nav_ptr Pathfinder::GetNavRecAtPos(Pos2D position)
 
 void Pathfinder::ClearNavRecHeuristic()
 {
-	for (auto navrec : navrecs) {
-		navrec->ClearHeuristics();
-	}
+	navrecs.clear();
 	searched_navrecs.clear();
 }
 
@@ -144,7 +143,7 @@ const float Pathfinder::DiagonalMod(Pos2D& a, Pos2D& b)
 }
 
 const void Pathfinder::UpdateNavRec(World& world, Pos2D location) {
-	navrecs.clear();
+	ClearNavRecHeuristic();
 	int width = world.kTilesWidth - location.x;
 	int height = world.kTilesHeight - location.y;
 		for (int y = location.y; y < height; y++) {
