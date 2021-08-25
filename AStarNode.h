@@ -15,8 +15,6 @@ struct AStarNode {
 	friend bool operator==(const AStarNode& a, const AStarNode& b);
 
 	int GetCantor() {
-		int x = tile.pos_.x;
-		int y = tile.pos_.y;
-		return (x + y) * (x + y + 1) / 2 + y;
+		return tile.pos_.hash();
 	}
 };

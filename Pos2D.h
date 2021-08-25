@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+#include "Utils.h"
 
 struct Pos2D {
 	Pos2D(int a, int b): x(a), y(b) {}
@@ -12,8 +13,8 @@ struct Pos2D {
 	inline bool operator!=(const Pos2D& b) { return x != b.x || y != b.y; }
 	Pos2D Adjacent(int px, int py) { return Pos2D(x + px, y + py); }
 	int hash() {
-		if(saved_hash == -1)
-			saved_hash = ((x + y) * (x + y + 1) / 2 + y);
+		if (saved_hash == -1)
+			saved_hash = CzeUtils::GetCantor(x, y);
 		return saved_hash;
 	}
 	void MoveTowards(Pos2D target){
