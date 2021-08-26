@@ -19,7 +19,7 @@ void World::InitWorld() {
   }
   //PlaceRandomStones();
   GenerateMaze();
-  pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
+  pathfinder_.MapChangedAt(*this, Pos2D(0, 0));
 }
 
 void World::GenerateMaze() {
@@ -116,7 +116,7 @@ void World::ToggleWalkable(Pos2D pos) {
     else {
         SetWall(pos, false);
     }
-    pathfinder_.UpdateNavRec(*this, Pos2D(0, 0));
+    pathfinder_.MapChangedAt(*this, Pos2D(0, 0));
 }
 
 void World::SetWall(Pos2D pos, bool place) {

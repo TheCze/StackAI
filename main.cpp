@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
 #include "Spritesheet.h"
 #include "World.h"
 #include "main.h"
@@ -11,7 +10,6 @@
 
 
 using namespace sf;
-
 std::vector<Actor> actors;
 sf::Clock deltaClock;
 
@@ -151,11 +149,11 @@ void check_input(sf::RenderWindow& window, World& world)
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         world.SetWall(mousepos, true);
-        world.pathfinder_.UpdateNavRec(world, Pos2D(0, 0));
+        world.pathfinder_.MapChangedAt(world, Pos2D(0, 0));
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         world.SetWall(mousepos, false);
-        world.pathfinder_.UpdateNavRec(world, Pos2D(0, 0));
+        world.pathfinder_.MapChangedAt(world, Pos2D(0, 0));
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
