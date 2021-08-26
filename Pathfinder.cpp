@@ -4,14 +4,11 @@
 #include "World.h"
 #include "Path.h"
 #include "Pathfinder.h"
-#include <queue>
 #include "AStarNode.h"
 #include <cmath>
 #include "OpenList.h"
-#include "ASCII.h"
 #include "ClosedList.h"
 #include <SFML/Graphics.hpp>
-#include "NavRecConnection.h"
 #include "NavRec.h"
 #include "NavRecSystem.h"
 

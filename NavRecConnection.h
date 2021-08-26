@@ -4,7 +4,6 @@
 class NavRec;
 typedef std::shared_ptr<NavRec> nav_ptr;
 
-
 struct NavRecConnection {
 	float distance=-1;
 	nav_ptr from;

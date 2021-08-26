@@ -6,7 +6,8 @@
 #include "Randomizer.h"
 #include "NavRecConnection.h"
 #include <unordered_map>
-struct NavRec {
+class NavRec {
+public:
 	typedef std::shared_ptr<NavRec> nav_ptr;
 	NavRec(Pos2D a, Pos2D b) : start(a), size(b) {  }
 	Pos2D start;
