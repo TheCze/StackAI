@@ -105,7 +105,7 @@ void World::ClearPathDebugWorld() {
     }
 }
 
-std::shared_ptr<Path> World::GetPath(Pos2D& start, Pos2D& target) {
+std::shared_ptr<PathfinderCZ::Path> World::GetPath(Pos2D& start, Pos2D& target) {
     return pathfinder_.GetPath(*this, start, target);
 }
 

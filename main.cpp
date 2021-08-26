@@ -33,8 +33,8 @@ int main()
     World world;
     world.pathfinder_.window_ = &window;
     world.pathfinder_.font_ = &font;
-    RunPathfindingBenchmark(world);
     RunGame(window, world, font);
+    RunPathfindingBenchmark(world);
     return 0;
 }
 

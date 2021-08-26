@@ -15,11 +15,11 @@ public:
 	Tile& GetTile(int x, int y) { return tiles_[XY(x, y)]; }
 	Tile& GetTile(Pos2D pos) { return GetTile(pos.x, pos.y); }
 	void SetPos(int x, int y, Tile t) { t.pos_.x = x; t.pos_.y = y; tiles_[XY(x, y)] = t; }
-	std::shared_ptr<Path> GetPath(Pos2D& start, Pos2D& target);
+	std::shared_ptr<PathfinderCZ::Path> GetPath(Pos2D& start, Pos2D& target);
 	std::vector<Tile> GetAdjacents(Pos2D&);
 	bool IsValid(int x, int y) { return x < kTilesWidth&& y < kTilesHeight&& x >= 0 && y >= 0; }
 	bool IsValid(Pos2D pos) { return IsValid(pos.x, pos.y); }
-	Pathfinder pathfinder_;
+	PathfinderCZ::Pathfinder pathfinder_;
 	void ClearPathDebugWorld();
 	void Update(float delta);
 	void ToggleWalkable(Pos2D pos);

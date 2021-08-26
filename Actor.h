@@ -15,7 +15,7 @@ public:
 	void Update(World& world, float delta);
 	bool AtTarget();
 	void SetTarget(Pos2D pos) { target_ = pos; path_.reset(); }
-	std::shared_ptr<Path> path_;
+	std::shared_ptr<PathfinderCZ::Path> path_;
 private:
 	float movespeed_ = 75;
 	float movetimer_ = 1 / movespeed_;

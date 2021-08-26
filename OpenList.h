@@ -2,12 +2,21 @@
 #include <vector>
 #include "AStarNode.h"
 #include <queue>
-
-struct OpenList {
-	void AddOrUpdate(AStarNode node);
-	AStarNode PopLowestCost();
-	bool empty() { return heap.empty(); };
-	int size() { return heap.size(); }
-private:
-	std::priority_queue<AStarNode> heap;
-};
+namespace PathfinderCZ {
+	struct OpenList {
+		void AddOrUpdate(AStarNode new_node)
+		{
+			heap.push(new_node);
+		}
+		AStarNode PopLowestCost()
+		{
+			auto min = heap.top();
+			heap.pop();
+			return min;
+		}
+		bool empty() { return heap.empty(); };
+		int size() { return heap.size(); }
+	private:
+		std::priority_queue<AStarNode> heap;
+	};
+}
